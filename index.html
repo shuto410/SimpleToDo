@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- jQuery読み込み -->
+    <script src="jquery-3.2.1.min.js"></script>
+
+    <title>enter</title>
+</head>
+
+<body>
+
+    <form name='form'>
+        <div class='form-group'>
+            <label for="mail">メールアドレス</label>
+            <div class='row'>
+                <div class='col-sm-4'>
+                    <input type='text' class="form-control" maxlength='50' name='mail' placeholder="メールアドレス" id="mail" /><br />
+                </div>
+            </div>
+        </div>
+        <div class='form-group'>
+            <label for="pass">パスワード</label>
+            <div class='row'>
+                <div class='col-sm-4'>
+                    <input type='password' class="form-control" maxlength='16' name='pass' placeholder="パスワード" id="pass" />
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <input type="button" class="btn btn-primary" name="submit" value="送信" id="submit" />
+        </div>
+    </form>
+
+    <div id='result'></div>
+
+    <a href="signup.html" class="btn btn-link" target="_blank">新規登録</a>
+
+
+    <script type="text/javascript">
+        var html = "callback.html";
+        var php = "json.php";
+
+
+
+        $(function() {
+            $('#submit').click(function() {
+                var mail = $('#mail').val();
+                var pass = $('#pass').val();
+
+                //php = php + '?mail=' + mail + '&pass=' + pass;
+
+                fetch(php, {
+                    method: 'POST',
+                    body: 'mail=' + mail + '&pass=' + pass,
+                    headers: new Headers({
+                        'Content-type': 'application/x-www-form-urlencoded'
+                    })
+                }).then(function(response) {
+                    return response.json();
+                }).then(function(json) {
+                    // textに文字列で結果が渡される
+                    alert(json.result);
+                    if (json.result == true) {
+                        //window.open('service.html', '_blank');
+                        window.location.href = 'service.html';
+                    }
+                });
+            })
+        })
+
+        /*formSend = function(mail, password) {
+            fetch(php, {
+                method: 'POST',
+                body: 'mail=' + mail + '&pass=' + password;
+
+            }).then(function(response) {
+                return response.json();
+            }).then(function(json) {
+                // textに文字列で結果が渡される
+                alert(json.result);
+            });
+        }*/
+
+    </script>
+
+</body>
+
+</html>
