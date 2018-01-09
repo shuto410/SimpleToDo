@@ -24,7 +24,7 @@
             <span id="pass_confirm_message"></span><br />
             <span class='fieldname'>&nbsp;</span>
 
-            <input type='submit' id='submit' value='登録' />
+            <button type="button" id='submit'>登録</button>
         </form>
 
         <script>
@@ -96,7 +96,7 @@
                         return;
                     }
                     fetch("registAccount.php", {
-                        method: POST,
+                        method: 'POST',
                         body:   'mail=' + $('#mail_regist').val() + '&pass=' + $('#password').val(),
                         headers: new Headers({
                             'Content-type': 'application/x-www-form-urlencoded'

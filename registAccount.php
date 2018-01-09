@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 
 $result = array('result' => false);
 
-if(isset($_POST['mail'] AND isset($_POST['pass'])){
+if(isset($_POST['mail']) AND isset($_POST['pass'])){
     $mail = $_POST['mail'];
     $pass = $_POST['pass'];
     
