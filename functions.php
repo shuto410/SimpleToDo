@@ -19,7 +19,7 @@ if(!$dblink) die("Unable to connect to MySQL: ".mysqli_connect_error());
 mysqli_select_db($dblink, $dbname) or die("Unable to select MySQL: ".mysqli_error($dblink));
 
 function sanitizeString($var){
-   global $dblink;
+    global $dblink;
     $var = strip_tags($var);
     $var = htmlentities($var);
     $var = stripslashes($var);
@@ -34,7 +34,7 @@ function createTable($name, $query){
 function queryMysql($query){
     global $dblink;
     $result = mysqli_query($dblink, $query) or die(mysqli_error($dblink));
-	 return $result;
+	return $result;
 }
 
 function isMailAddress($text) {
