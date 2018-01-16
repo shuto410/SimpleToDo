@@ -40,7 +40,7 @@
 
     <script type="text/javascript">
         var html = "callback.html";
-        var php = "json.php";
+        var php = "login.php";
 
 
 
@@ -51,18 +51,18 @@
 
                 //php = php + '?mail=' + mail + '&pass=' + pass;
 
-                fetch(php, {
+                fetch(php+'?mail='+mail+'&pass='+pass, /*{
                     method: 'POST',
                     body: 'mail=' + mail + '&pass=' + pass,
                     headers: new Headers({
                         'Content-type': 'application/x-www-form-urlencoded'
                     })
-                }).then(function(response) {
+                }*/).then(function(response) {
                     return response.json();
                 }).then(function(json) {
                     // textに文字列で結果が渡される
                     alert(json.result);
-                    if (json.result == true) {
+                    if (json.result == "passaccept") {
                         //window.open('service.html', '_blank');
                         window.location.href = 'service.html';
                     }

@@ -7,13 +7,15 @@ error_reporting(E_ALL);
 
 $result = array('result' => false);
 
-if(isset($_POST['mail']) AND isset($_POST['pass'])){
-    $mail = $_POST['mail'];
-    $pass = $_POST['pass'];
-    
+if(isset($_POST['mail']) AND isset($_POST['pass'])  ){
+    //入力値のサニタイズ
+    $mail = sanitizeString($_POST['mail']);
+    $pass = sanitizeString($_POST['pass']);
+    //パスワードのハッシュ化
+    $hashpass = password_hash($pass, PASSWORD_DEFAULT);
 
     
-    $queryResponse = queryMysql("INSERT INTO members VALUES('$mail', '$pass')");
+    $queryResponse = queryMysql("INSERT INTO members VALUES('$mail', '$hashpass')");
     if($queryResponse == true){
         $result['result'] = true;
     }

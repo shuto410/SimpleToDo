@@ -45,4 +45,13 @@ function isMailAddress($text) {
         }
 }
 
+
+function getDatabaseMatch($result, $key){
+    while ($row = mysqli_fetch_assoc($result)) {
+         // パスワード(暗号化済み）の取り出し
+         return $row[$key];
+    }
+}
+
+
 ?>
