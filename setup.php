@@ -12,6 +12,15 @@ createTable('members',
             'mail VARCHAR(50),
             pass VARCHAR(255),
             INDEX(mail(10))');
+
+createTable('task_theme',
+            'name VARCHAR(50),
+            id INT UNSIGNED NOT NULL AUTO_INCREMENT KEY');
+
+createTable('tasks',
+            'name VARCHAR(50),
+            id INT');
+
 ?>
 
 <br />...done.
