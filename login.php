@@ -37,11 +37,6 @@ if (isset($_GET['mail']) AND isset($_GET['pass'])){
 
 
 
-//$arr = array('name' => 'kizuna ai', 'age' => 14);
-
 echo json_encode($result);
-//echo "{\"result\": ". $mail ."}";
-
-//echo "unko";
 
 ?>
