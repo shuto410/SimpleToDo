@@ -2,19 +2,23 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- jQuery読み込み -->
+    <script src="jquery-3.2.1.min.js"></script>
     <title>service</title>
 
     <body>
         <h1>service</h1>
-        <button type="button" id="task_regist">new task</button>
+        <button type="button" id="add_task_tab">new task theme</button>
 
         <script>
+        //タスクテーマの新規登録
         $(function(){
-            $('task_regist').click(function(){
-                var result = prompt( "task name" , "test" );
-                alert(result);
+            $('#add_task_tab').click(function(){
+                var result = window.prompt( "tab name" , "new tab" );
+                if(result == null) return;
+                
             })
-        }
+        })
         
         </script>
      </body>

@@ -13,13 +13,13 @@ createTable('members',
             pass VARCHAR(255),
             INDEX(mail(10))');
 
-createTable('task_theme',
+createTable('task_tabs',
             'name VARCHAR(50),
             id INT UNSIGNED NOT NULL AUTO_INCREMENT KEY');
 
 createTable('tasks',
             'name VARCHAR(50),
-            id INT');
+            tab_id INT');
 
 ?>
 

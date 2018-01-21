@@ -31,6 +31,11 @@ function createTable($name, $query){
     echo "Table '$name' created or already exists.<br />";
 }
 
+function deleteTable($name){
+    queryMysql("DROP TABLE $name");
+    echo "Table '$name' delete or don't exists.<br />";
+}
+
 function queryMysql($query){
     global $dblink;
     $result = mysqli_query($dblink, $query) or die(mysqli_error($dblink));
