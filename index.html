@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- jQuery読み込み -->
     <script src="jquery-3.2.1.min.js"></script>
-
+    <script src="js/login.js"></script>
     <title>enter</title>
 </head>
 
@@ -38,53 +38,7 @@
     <a href="signup.html" class="btn btn-link" target="_blank">新規登録</a>
 
 
-    <script type="text/javascript">
-        var html = "callback.html";
-        var php = "php/login.php";
-
-
-
-        $(function() {
-            $('#submit').click(function() {
-                var mail = $('#mail').val();
-                var pass = $('#pass').val();
-
-                //php = php + '?mail=' + mail + '&pass=' + pass;
-
-                fetch(php+'?mail='+mail+'&pass='+pass, /*{
-                    method: 'POST',
-                    body: 'mail=' + mail + '&pass=' + pass,
-                    headers: new Headers({
-                        'Content-type': 'application/x-www-form-urlencoded'
-                    })
-                }*/).then(function(response) {
-                    return response.json();
-                }).then(function(json) {
-                    // textに文字列で結果が渡される
-                    alert(json.result);
-                    if (json.result == "passaccept") {
-                        //window.open('service.html', '_blank');
-                        window.location.href = 'service.html';
-                    }
-                });
-            })
-        })
-
-        /*formSend = function(mail, password) {
-            fetch(php, {
-                method: 'POST',
-                body: 'mail=' + mail + '&pass=' + password;
-
-            }).then(function(response) {
-                return response.json();
-            }).then(function(json) {
-                // textに文字列で結果が渡される
-                alert(json.result);
-            });
-        }*/
-
-    </script>
-
+   
 </body>
 
 </html>
