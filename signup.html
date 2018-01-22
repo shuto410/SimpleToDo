@@ -10,7 +10,7 @@
 
         <form>
             <label>メールアドレス</label>
-            <input type='text' id="mail_regist" maxlength='50' name='mail' />
+            <input type='text' id="mail_register" maxlength='50' name='mail' />
             <span id='mail_info'></span><br />
 
             <label>パスワード</label>
@@ -34,10 +34,10 @@
             
             //メールアドレス入力後チェック
             $(function() {
-                $('#mail_regist').blur(function() {
-                    fetch('checkMailAddress.php', {
+                $('#mail_register').blur(function() {
+                    fetch('php/checkMailAddress.php', {
                         method:  'POST',
-                        body:    'mail=' + $('#mail_regist').val(),
+                        body:    'mail=' + $('#mail_register').val(),
                         headers: new Headers({
                             'Content-type': 'application/x-www-form-urlencoded'
                         })
@@ -95,7 +95,7 @@
                         alert("retry!");
                         return;
                     }
-                    fetch("registAccount.php", {
+                    fetch("php/addAccount.php", {
                         method: 'POST',
                         body:   'mail=' + $('#mail_regist').val() + '&pass=' + $('#password').val(),
                         headers: new Headers({

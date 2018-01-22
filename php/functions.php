@@ -32,7 +32,7 @@ function createTable($name, $query){
 }
 
 function deleteTable($name){
-    queryMysql("DROP TABLE $name");
+    queryMysql("DROP TABLE $name IF EXISTS");
     echo "Table '$name' delete or don't exists.<br />";
 }
 
