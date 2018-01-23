@@ -2,14 +2,14 @@
     session_start();
 
     $result = array('result' => "null");
-    $mail = $_POST['mail'];
+    $mail = $_POST['id'];
 
     try{
-        $_SESSION['user_id'] = $mail;
-        $result['result'] =  "success";
+        $_SESSION['id'] = $mail;
+        $result['isSuccess'] = true;
     }
     catch(e){
-        $result['result']  = "failed";
+        $result['isSuccess'] = false;
     }
 
     echo json_encode($result);

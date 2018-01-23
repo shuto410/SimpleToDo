@@ -75,6 +75,7 @@ $(function () {
             return response.json();
         }).then(function (json) {
             if (json.result = true) {
+                startSession(json.id);
                 window.location.href = 'service.html';
             } else {
                 alert("failed!");
@@ -82,3 +83,22 @@ $(function () {
         })
     })
 })
+
+var startSession = function(id){
+    fetch("php/setSession.php", {
+        method: 'POST',
+        body: 'id=' + id,
+        headers: new Headers({
+            'Content-type': 'application/x-www-form-urlencoded'
+        })
+    }).then(function (response){
+        return response.json();
+    }).then(function(json){
+        if(json.isSuccess == true){
+            alert("set session success");
+        }
+        else{
+            alert("set session failed");
+        }
+    })
+}
