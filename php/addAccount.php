@@ -18,13 +18,13 @@ function addAccount(){
     
         $queryResult = queryMysql("INSERT INTO users(mail, pass, name) VALUES('$mail', '$hashpass', '$name')");
         if($queryResult == true){
-            $result['result'] = true;
+            $result['isSuccess'] = true;
             $queryResult = queryMysql("SELECT * from users WHERE mail = '$mail'");
-            if(queryResult == FALSE){
-                $result['result'] = false;
+            if($queryResult == FALSE){
+                $result['isSuccess'] = false;
             }
             else{
-                $row = mysqli_fetch_assoc($queryResult):
+                $row = mysqli_fetch_assoc($queryResult);
                 $result['id'] = $row['id'];
             }
         }

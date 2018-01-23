@@ -74,7 +74,7 @@ $(function () {
         }).then(function (response) {
             return response.json();
         }).then(function (json) {
-            if (json.result = true) {
+            if (json.isSuccess = true) {
                 startSession(json.id);
                 window.location.href = 'service.html';
             } else {
