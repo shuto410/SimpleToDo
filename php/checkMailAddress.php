@@ -12,7 +12,7 @@ if(isset($_POST['mail'])){
     
     if(isMailAddress($mail) == TRUE){
         $result['isMailAddress'] = TRUE;
-        if(mysqli_num_rows(queryMysql("SELECT * FROM members
+        if(mysqli_num_rows(queryMysql("SELECT * FROM users
         WHERE mail='$mail'"))){
             $result['isUsed'] = TRUE;
         }

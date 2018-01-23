@@ -7,9 +7,9 @@ include_once 'functions.php';
 
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-/*
-deleteTable('task_theme');
-deleteTable('task_themes');
+
+deleteTable('users');
+deleteTable('task_tabs');
 deleteTable('tasks');
 /**/
 ?>

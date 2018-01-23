@@ -16,11 +16,11 @@ if (isset($_GET['mail']) AND isset($_GET['pass'])){
     $pass = sanitizeString($_GET['pass']);
 
     //メールアドレスの一致したユーザーのパスワード抽出
-    $resultMembers = queryMysql("SELECT * FROM members WHERE mail='$mail'");
-    $dbHashedPwd = getDatabaseMatch($resultMembers, 'pass');
+    $resultUsers = queryMysql("SELECT * FROM users WHERE mail='$mail'");
+    $dbHashedPwd = getDatabaseMatch($resultUsers, 'pass');
   
 
-    if (mysqli_num_rows($resultMembers)){
+    if (mysqli_num_rows($resultUsers)){
         if(password_verify($pass, $dbHashedPwd)){
             $result['result'] = "passaccept"; 
         }

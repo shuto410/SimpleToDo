@@ -58,13 +58,16 @@ $(function () {
 
 $(function () {
     $('#submit').click(function () {
-        if (!isMailComplete || !isPassComplete) {
+        var mail = $('#mail_register').val();
+        var pass = $('#password').val();
+        var name = $('#user_name').val();
+        if (!isMailComplete || !isPassComplete || $('#user_name').val() == "") {
             alert("retry!");
             return;
         }
         fetch("php/addAccount.php", {
             method: 'POST',
-            body: 'mail=' + $('#mail_regist').val() + '&pass=' + $('#password').val(),
+            body: 'mail=' + mail + '&pass=' + pass + '&name=' + name,
             headers: new Headers({
                 'Content-type': 'application/x-www-form-urlencoded'
             })
