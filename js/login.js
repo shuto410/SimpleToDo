@@ -1,9 +1,6 @@
-var html = "callback.html";
-var php = "php/login.php";
-
-
 
 $(function() {
+    var php = "php/login.php";
     $('#submit').click(function() {
         var mail = $('#mail').val();
         var pass = $('#pass').val();

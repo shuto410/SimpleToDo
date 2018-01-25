@@ -95,10 +95,10 @@ var startSession = function(id){
         return response.json();
     }).then(function(json){
         if(json.isSuccess == true){
-            alert("set session success");
+            console.log("set session success");
         }
         else{
-            alert("set session failed");
+            console.log("set session failed");
         }
     })
 }

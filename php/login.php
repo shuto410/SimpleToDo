@@ -4,39 +4,40 @@ error_reporting(E_ALL);
 
 include_once 'functions.php';
 
-//結果用配列
-$result = array('result' => "null");
 
-$mail = "null";
-$pass = "null";
+function login(){
+    //結果用配列
+    $result = array('isSuccess' => false);
+    $mail = "null";
+    $pass = "null";
 
-if (isset($_GET['mail']) AND isset($_GET['pass'])){
-    //入力値サニタイズ
-    $mail = sanitizeString($_GET['mail']);
-    $pass = sanitizeString($_GET['pass']);
+    if (isset($_GET['mail']) AND isset($_GET['pass'])){
+        //入力値サニタイズ
+        $mail = sanitizeString($_GET['mail']);
+        $pass = sanitizeString($_GET['pass']);
 
-    //メールアドレスの一致したユーザーのパスワード抽出
-    $resultUsers = queryMysql("SELECT * FROM users WHERE mail='$mail'");
-    $dbHashedPwd = getDatabaseMatch($resultUsers, 'pass');
+        //メールアドレスの一致したユーザーのパスワード抽出
+        $resultUsers = queryMysql("SELECT * FROM users WHERE mail='$mail'");
+        $dbHashedPwd = getDatabaseMatch($resultUsers, 'pass');
   
 
-    if (mysqli_num_rows($resultUsers)){
-        if(password_verify($pass, $dbHashedPwd)){
-            $result['result'] = "passaccept"; 
+        if (mysqli_num_rows($resultUsers)){
+            if(password_verify($pass, $dbHashedPwd)){
+                $result['idSuccess'] = true; 
+            }
+            else{
+                $result['isSuccess'] = false;
+            }
         }
         else{
-            $result['result'] = "passreject";
+            $result['isSuccess'] = false;
         }
     }
-    else{
-        $result['result'] = "nomailaddress";
-    }
 
-    
+    return json_encode($result);
 }
 
 
-
-echo json_encode($result);
+echo login();
 
 ?>
