@@ -18,12 +18,11 @@ $(function() {
         }).then(function(json) {
             // textに文字列で結果が渡される
             alert(json.result);
-            if (json.result == "passaccept") {
+            if (json.isSuccess == true) {
+                startSession(json.id);
                 //window.open('service.html', '_blank');
                 window.location.href = 'service.html';
             }
         });
     })
 })
-
-

@@ -7,7 +7,7 @@ include_once 'functions.php';
 
 function login(){
     //結果用配列
-    $result = array('isSuccess' => false);
+    $result = array('isSuccess' => false, 'id' => 0);
     $mail = "null";
     $pass = "null";
 
@@ -23,7 +23,9 @@ function login(){
 
         if (mysqli_num_rows($resultUsers)){
             if(password_verify($pass, $dbHashedPwd)){
-                $result['idSuccess'] = true; 
+                $result['isSuccess'] = true; 
+                //TODO: ログインしたユーザのidを取得して返すようにする。
+
             }
             else{
                 $result['isSuccess'] = false;
