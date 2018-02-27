@@ -1,3 +1,9 @@
+/* ==================================
+ * FileName : common.js
+ * Contents : JavaScript関数群
+ * =================================*/
+
+
 var startSession = function(id){
     fetch("php/setSession.php", {
         method: 'POST',
