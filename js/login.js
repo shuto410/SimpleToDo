@@ -17,7 +17,7 @@ $(function() {
             return response.json();
         }).then(function(json) {
             // textに文字列で結果が渡される
-            alert(json.result);
+            alert(json.isSuccess);
             if (json.isSuccess == true) {
                 startSession(json.id);
                 //window.open('service.html', '_blank');

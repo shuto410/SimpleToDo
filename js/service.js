@@ -1,3 +1,12 @@
+window.addEventListener('load', function(){
+    var id = getSession().then(function(id){
+        $('#userid').text(id);
+    }).catch(function(error){
+        alert(error);
+        window.location.href = 'index.html';
+    })
+})
+
 //タスクテーマの新規登録
 $(function(){
     $('#add_task_tab').click(function(){
