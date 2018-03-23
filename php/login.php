@@ -19,13 +19,14 @@ function login(){
         //メールアドレスの一致したユーザーのパスワード抽出
         $resultUsers = queryMysql("SELECT * FROM users WHERE mail='$mail'");
         $dbHashedPwd = getDatabaseMatch($resultUsers, 'pass');
-  
+        $resultUsers = queryMysql("SELECT * FROM users WHERE mail='$mail'");
+        $dbId = getDatabaseMatch($resultUsers, 'id');
 
         if (mysqli_num_rows($resultUsers)){
             if(password_verify($pass, $dbHashedPwd)){
                 $result['isSuccess'] = true; 
                 //TODO: ログインしたユーザのidを取得して返すようにする。
-
+                $result['id'] = $dbId;
             }
             else{
                 $result['isSuccess'] = false;

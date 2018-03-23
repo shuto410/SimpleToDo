@@ -1,11 +1,26 @@
 window.addEventListener('load', function(){
-    var id = getSession().then(function(id){
+    getSession(function(id){
+        $('#userid').text(id);
+    });
+    
+    /*getSession().then(function(id){
         $('#userid').text(id);
     }).catch(function(error){
-        alert(error);
+        console.log(error);
         window.location.href = 'index.html';
-    })
+    })*/
 })
+
+/*$(function(){
+    $('#get_id').click(function(){
+        getSession().then(function(id){
+            $('#userid').text(id);
+        }).catch(function(error){
+            console.log(error);
+            window.location.href = 'index.html';
+        })
+    })
+})*/
 
 //タスクテーマの新規登録
 $(function(){

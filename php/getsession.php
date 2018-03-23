@@ -1,12 +1,16 @@
 <?php
-    //session_start();
+session_start();
     
-    $result = array('id' => null);
-
+function getSession(){
+    $result = array('id' => null, 'isSuccess' => false, 'sessionId' => null);
+    $result['sessionId'] = session_id();
     if(isset($_SESSION['id'])){
         $result['id'] =  $_SESSION['id'];
+        $result['isSuccess'] = true;
     }
+    return json_encode($result);
+}
 
+echo getSession();
 
-    echo json_encode($result);
 ?>
