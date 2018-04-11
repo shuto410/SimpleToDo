@@ -67,17 +67,18 @@ $(function () {
         }
         fetch("php/addAccount.php", {
             method: 'POST',
-            body: 'mail=' + mail + '&pass=' + pass + '&name=' + name,
+            body:   'mail=' + mail + '&pass=' + pass + '&name=' + name,
             headers: new Headers({
                 'Content-type': 'application/x-www-form-urlencoded'
             })
         }).then(function (response) {
             return response.json();
         }).then(function (json) {
-            if (json.isSuccess = true) {
+            if (json.isSuccess == true) {
                 startSession(json.id);
                 window.location.href = 'service.html';
-            } else {
+            } 
+            else {
                 alert("failed!");
             }
         })

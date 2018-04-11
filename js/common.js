@@ -53,14 +53,14 @@ var getSession = function(resolve){
         dataType: "json",
     })
     .done(function(json){
-        alert(json.sessionId);
+        //alert(json.sessionId);
         if(json.isSuccess == true){
-            alert("get success");
+            //alert("get success");
             console.log("get session success");
             resolve(json.id);
         }
         else{
-            alert("get failed");
+            //alert("get failed");
             console.log("get session failed"+json.id);
         }
     });
