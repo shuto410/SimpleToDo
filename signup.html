@@ -6,33 +6,93 @@
     <script src="jquery-3.2.1.min.js"></script>
     <script src="js/common.js"></script>
     <script src="js/signup.js"></script>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/signup.css" rel="stylesheet">
+
     <title>signup</title>
 
-    <body>
+    <body  class="bg-light">
+        <div class="container">
+            <div class="py-5 text-center">
+                <h2>Sign up form</h2>
+            </div>
 
+            <div class="row">
+                <div class="col-md-8 offset-md-2 order-md-1">
+                    <h4 class="mb-3">Account information</h4>
+                    <form class="needs-validation" novalidate>
+                        <div class="mb-3">
+                            <label for="username">Username</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="user_name" placeholder="Username" required/>
+                                <div class="invalid-feedback" style="width: 100%;">
+                                    Your username is required.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" id="mail_register" placeholder="you@example.com" required/>
+                            <span id='mail_info' class="text-muted"></span>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" name="pass" id="password" placeholder="Password" required />
+                            <span id='pass_info' class="text-muted"></span>
+                        </div>
+                        
+                        <div class="mb-3">
+                                <label for="password">Password <span class="text-muted">(Confirm)</span></label>
+                                <input type="password" class="form-control" name="pass_conf" id="confirm_password" placeholder="Password(Confirm)" required/>
+                                <span id="pass_confirm_message" class="text-muted"></span>
+                        </div>
+                        
+                        <hr class="mb-4">
+
+                        <button class="btn btn-primary btn-lg btn-block" type="button" id="submit">アカウント作成</button>
+                    </form>
+                </div>
+            </div>
+
+            <footer class="my-5 pt-5 text-muted text-center text-small">
+                <p class="mb-1">&copy; 2017-2018 Shuto Takumi</p>
+
+            </footer>
+        </div>
+        
+        <!--
         <form>
             <label>ユーザー名</label>
             <input type='text' id="user_name" maxlength='50' name='user_name' />
             <br/>
-            
+
             <label>メールアドレス</label>
             <input type='text' id="mail_register" maxlength='50' name='mail' />
-            <span id='mail_info'></span><br />
+            <span id='mail_info'></span>
+            <br />
 
             <label>パスワード</label>
             <input type='password' maxlength='16' name='pass' id="password" />
-            <span id='pass_info'></span><br />
+            <span id='pass_info'></span>
+            <br />
 
-            
+
             <label>パスワード(確認)</label>
             <input type='password' maxlength='16' name='pass_conf' id="confirm_password" />
 
-            <span id="pass_confirm_message"></span><br />
+            <span id="pass_confirm_message"></span>
+            <br />
             <span class='fieldname'>&nbsp;</span>
 
             <button type="button" id='submit'>登録</button>
         </form>
-
+        -->
 
     </body>
 </head>
