@@ -2,8 +2,8 @@
 $(function() {
     var php = "php/login.php";
     $('#submit').click(function() {
-        var mail = $('#mail').val();
-        var pass = $('#pass').val();
+        var mail = $('#inputEmail').val();
+        var pass = $('#inputPassword').val();
 
         //php = php + '?mail=' + mail + '&pass=' + pass;
 

@@ -6,23 +6,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    
     <!-- jQuery読み込み -->
     <script src="jquery-3.2.1.min.js"></script>
-    <script src="js/common.js"></script>
-    <script src="js/login.js"></script>
-
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
-
     <!-- Custom styles for this template -->
     <link href="css/signin.css" rel="stylesheet">
+    <script src="js/common.js"></script>
+    <script src="js/login.js"></script>
 
     <title>enter</title>
 </head>
 
-<body>
+<body class="text-center">
+    <form class="form-signin">
+      <!--<img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">-->
+      <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+      <label for="inputEmail" class="sr-only">Email address</label>
+      <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+      <label for="inputPassword" class="sr-only">Password</label>
+      <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+      <div class="checkbox mb-3">
+        <label>
+          <input type="checkbox" value="remember-me"> Remember me
+        </label>
+      </div>
+      <input type="button" class="mb-3 btn btn-lg btn-primary btn-block" name="submit" id="submit" value="Sign in"/>
+      <div id='result'></div>
 
+      <input type="button" class="btn btn-lg btn-primary btn-block" onClick="location.href='signup.html'" value="Sign up"/>
+      
+      <p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
+    </form>
+
+    <!--
     <form name='form'>
         <div class='form-group'>
             <label for="mail">メールアドレス</label>
@@ -44,10 +61,9 @@
             <input type="button" class="btn btn-primary" name="submit" value="送信" id="submit" />
         </div>
     </form>
+    -->
 
-    <div id='result'></div>
-
-    <a href="signup.html" class="btn btn-link" target="_blank">新規登録</a>
+    
 
 
    
