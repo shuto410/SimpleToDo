@@ -1,6 +1,6 @@
 window.addEventListener('load', function(){
     getSession(getUserName(id, function(name){
-                    $('#userid').text(name+"さんがログインしています");
+        $('#userid').text(name+"さんがログインしています");
     })
 );
     
