@@ -1,19 +1,36 @@
 window.addEventListener('load', function(){
-    getSession(getUserName, function(name){
-        $('#userid').text(name+"さんがログインしています");
-    })
+    getSession().then(getUserName)
+    .then(displayName);
 });
     
-    /*getSession().then(function(id){
-        $('#userid').text(id);
-    }).catch(function(error){
-        console.log(error);
-        window.location.href = 'index.html';
-    })*/
 
+var getSession = function(){
+    return new Promise(function(resolve, reject){
+        $.ajax({
+            url: "php/getSession.php",
+            type: "POST",
+            dataType: "json",
+        })
+        .done(function(json){
+            if(json.isSuccess == true){
+                alert(json.sessionId);
+                console.log("get session success");
+                resolve(json.id);
+            }
+            else{
+                alert(json.sessionId);
+                console.log("get session failed"+json.sessionId);
+                reject();
+            }
+        });
+        
+        
+    })
+}
+    
 //ログインidよりユーザ名の取得
-var getUserName = function(id, resolve){
-    fetch("php/getUserName.php", {
+var getUserName = function(id){
+    return fetch("php/getUserName.php", {
         method: 'POST',
         body:   'id=' + id,
         headers: new Headers({
@@ -23,42 +40,16 @@ var getUserName = function(id, resolve){
         return response.json();
     }).then(function(json){
         if(json.isSuccess == true){
-            resolve(json.name);
+            return json.name;
         } 
     })
 }
 
-
-var getSession = function(resolve, showName){
-    $.ajax({
-        url: "php/getSession.php",
-        type: "POST",
-        dataType: "json",
-    })
-    .done(function(json){
-        //alert(json.sessionId);
-        if(json.isSuccess == true){
-            //alert("get success");
-            console.log("get session success");
-            resolve(json.id, showName);
-        }
-        else{
-            //alert("get failed");
-            console.log("get session failed"+json.id);
-        }
-    });
+var displayName = function(name){
+    $('#userid').text(name+"さんがログインしています");
 }
 
-/*$(function(){
-    $('#get_id').click(function(){
-        getSession().then(function(id){
-            $('#userid').text(id);
-        }).catch(function(error){
-            console.log(error);
-            window.location.href = 'index.html';
-        })
-    })
-})*/
+
 
 //タスクテーマの新規登録
 $(function(){
