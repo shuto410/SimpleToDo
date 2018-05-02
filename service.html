@@ -6,7 +6,8 @@
     <script src="jquery-3.2.1.min.js"></script>
     <script src="js/common.js"></script>
     <script src="js/service.js"></script>
-
+       
+    
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
@@ -58,5 +59,39 @@
         <div id="userid"></div>
         <button type="button" class="btn btn-lg btn-primary" id="add_task_tab">new task tab</button>
         <button type="button" class="btn btn-lg btn-primary" id="get_id">get id</button>
+
+        <div class="p-3">
+            <!-- タブボタン部分 -->
+            <ul class="nav nav-tabs">
+              <li class="nav-item">
+                <a href="#tab1" class="nav-link active" data-toggle="tab">タブ1</a>
+              </li>
+              <li class="nav-item">
+                <a href="#tab2" class="nav-link" data-toggle="tab">タブ2</a>
+              </li>
+              <li class="nav-item">
+                <a href="#tab3" class="nav-link" data-toggle="tab">タブ3</a>
+              </li>
+              <li class="nav-item">
+                <a href="#tab4" class="nav-link" data-toggle="tab">タブ4</a>
+              </li>
+            </ul>
+          
+            <!--タブのコンテンツ部分-->
+            <div class="tab-content">
+              <div id="tab1" class="tab-pane active">
+                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/221808/photo1.jpg" alt="" class="img-fluid">
+              </div>
+              <div id="tab2" class="tab-pane">
+                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/221808/photo2.jpg" alt="" class="img-fluid">
+              </div>
+              <div id="tab3" class="tab-pane">
+                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/221808/photo3.jpg" alt="" class="img-fluid">
+              </div>
+              <div id="tab4" class="tab-pane">
+                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/221808/photo4.jpg" alt="" class="img-fluid">
+              </div>
+            </div>
+          </div>
     </body>
 </head>
