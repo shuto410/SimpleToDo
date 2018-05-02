@@ -46,25 +46,7 @@ var startSession = function(id){
     });
 }
 
-var getSession = function(resolve){
-    $.ajax({
-        url: "php/getSession.php",
-        type: "POST",
-        dataType: "json",
-    })
-    .done(function(json){
-        //alert(json.sessionId);
-        if(json.isSuccess == true){
-            //alert("get success");
-            console.log("get session success");
-            resolve(json.id);
-        }
-        else{
-            //alert("get failed");
-            console.log("get session failed"+json.id);
-        }
-    });
-}
+
 
 var getSessionB = function(){
     fetch("php/getSession.php", {
