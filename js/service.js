@@ -1,5 +1,7 @@
 window.addEventListener('load', function(){
-    getSession().then(getUserName)
+    getSession().then(getUserName, function(){
+        window.location.href = 'login.html';
+    })
     .then(displayName);
 });
     
@@ -15,6 +17,7 @@ var getSession = function(){
             if(json.isSuccess == true){
                 alert(json.sessionId);
                 console.log("get session success");
+                TaskMgr.id = json.id;
                 resolve(json.id);
             }
             else{
@@ -61,7 +64,7 @@ $(function(){
         }
         fetch('php/addTab.php', {
             method: 'POST',
-            body: 'name=' + tabName,
+            body: 'name=' + tabName + '&user=' + TaskMgr.id,
             headers: new Headers({
                     'Content-type': 'application/x-www-form-urlencoded'
             })
@@ -78,3 +81,6 @@ $(function(){
         })
     })
 })
+
+var TaskMgr = TaskMgr || {};
+
