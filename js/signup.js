@@ -67,7 +67,7 @@ $(function () {
         }
         fetch("php/addAccount.php", {
             method: 'POST',
-            body:   'mail=' + mail + '&pass=' + pass + '&name=' + name,
+            body: 'mail=' + mail + '&pass=' + pass + '&name=' + name,
             headers: new Headers({
                 'Content-type': 'application/x-www-form-urlencoded'
             })
@@ -75,10 +75,13 @@ $(function () {
             return response.json();
         }).then(function (json) {
             if (json.isSuccess == true) {
-                startSession(json.id);
-                window.location.href = 'service.html';
-            } 
-            else {
+                addTaskTab(function () {
+                    startSession(json.id);
+                }, 'ToDo', json.id);
+                addTaskTab(function(){
+                    window.location.href = 'service.html';
+                }, 'Shopping', json.id);
+            } else {
                 alert("failed!");
             }
         })

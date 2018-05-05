@@ -4,6 +4,7 @@
  * =================================*/
 
 
+
 var startSession = function(id){
     /*fetch("php/setSession.php", {
         method: 'POST',
@@ -78,6 +79,27 @@ var getSessionB = function(){
             alert("get failed");
             console.log("get session failed"+json.id);
             return null;
+        }
+    })
+}
+
+//タスク追加関数
+var addTaskTab = function(resolve, name, id){
+    fetch('php/addTab.php', {
+        method: 'POST',
+        body: 'name=' + name + '&user_id=' + id,
+        headers: new Headers({
+            'Content-type': 'application/x-www-form-urlencoded'
+        })
+    }).then(function(response){
+        return response.json();
+    }).then(function(json){
+        if(json.isSuccess == true){
+            resolve();
+            alert("success");
+        } 
+        else{
+            alert("error");
         }
     })
 }

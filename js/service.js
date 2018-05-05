@@ -1,11 +1,7 @@
-window.addEventListener('load', function(){
-    getSession().then(getUserName, function(){
-        window.location.href = 'login.html';
-    })
-    .then(displayName);
-});
-    
+var TaskMgr = TaskMgr || {};
 
+
+//セッション取得
 var getSession = function(){
     return new Promise(function(resolve, reject){
         $.ajax({
@@ -48,10 +44,17 @@ var getUserName = function(id){
     })
 }
 
-var displayName = function(name){
-    $('#userid').text(name+"さんがログインしています");
-}
 
+
+//サービス画面遷移時、ログインユーザー名表示
+window.addEventListener('load', function(){
+    getSession().then(getUserName, function(){
+        window.location.href = 'login.html';
+    })
+    .then(function(name){
+        $('#userid').text(name+"さんがログインしています");
+    });
+});
 
 
 //タスクテーマの新規登録
@@ -62,25 +65,12 @@ $(function(){
             alert("no inputs");
             return;
         }
-        fetch('php/addTab.php', {
-            method: 'POST',
-            body: 'name=' + tabName + '&user=' + TaskMgr.id,
-            headers: new Headers({
-                    'Content-type': 'application/x-www-form-urlencoded'
-            })
-        }).then(function(response){
-            return response.json();
-        }).then(function(json){
-            if(json.isSuccess == true){
-                //TODO
-                alert("success");
-            } 
-            else{
-                alert("error");
-            }
-        })
+        addTaskTab(function(){
+            $('.nav-tabs').append($('<li class="nav-item">').append('<a href="#' + tabName + '" class="nav-link" data-toggle="tab">' + tabName + '</a>'));
+        }, tabName, TaskMgr.id);
     })
 })
 
-var TaskMgr = TaskMgr || {};
+
+
 
