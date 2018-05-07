@@ -3,65 +3,55 @@ let TaskMgr = {};
 
 //セッション取得
 const getSession = () => {
-    return new Promise((resolve, reject) => {
-        $.ajax({
+    $.ajax({
             url: "php/getSession.php",
             type: "POST",
             dataType: "json",
         })
-        .done(json => {
-            if(json.isSuccess == true){
-                //alert(json.sessionId);
-                console.log("get session success");
-                TaskMgr.id = json.id;
-                resolve(json.id);
-            }
-            else{
-                //alert(json.sessionId);
-                console.log("get session failed"+json.sessionId);
-                reject();
-            }
-        });
-        
-        
-    })
+    .done(async json => {
+        if (json.isSuccess == true) {
+            //alert(json.sessionId);
+            console.log("get session success");
+            TaskMgr.id = json.id;
+            const name = await getUserName(json.id);
+            $('#userid').text(`${name}さんがログインしています`);
+        } else {
+            //alert(json.sessionId);
+            console.log("get session failed" + json.sessionId);
+            window.location.href = 'login.html';
+        }
+    });
 }
-    
+
 //ログインidよりユーザ名の取得
-const getUserName = (id) => {
-    return fetch("php/getUserName.php", {
+const getUserName = async (id) => {
+    const resp = await fetch("php/getUserName.php", {
         method: 'POST',
-        body:   `id=${id}`,
+        body: `id=${id}`,
         headers: new Headers({
             'Content-type': 'application/x-www-form-urlencoded'
         })
-    }).then(response => {
-        return response.json();
-    }).then(json => {
-        if(json.isSuccess == true){
-            return json.name;
-        } 
     })
+    const json = await resp.json();
+    if (json.isSuccess == true) {
+        return json.name;
+    }
+    else{
+        return 'error';
+    }
 }
 
 
 
 //サービス画面遷移時、ログインユーザー名表示
-window.addEventListener('load', () => {
-    getSession().then(getUserName, () => {
-        window.location.href = 'login.html';
-    })
-    .then((name) => {
-        $('#userid').text(`${name}さんがログインしています`);
-    });
-});
+window.addEventListener('load', getSession());
 
 
 //タスクテーマの新規登録
 $(() => {
     $('#add_task_tab').click(() => {
-        var tabName = window.prompt( "tab name" , "new tab" );
-        if(tabName == null){ 
+        var tabName = window.prompt("tab name", "new tab");
+        if (tabName == null) {
             alert("no inputs");
             return;
         }
@@ -70,7 +60,3 @@ $(() => {
         }, tabName, TaskMgr.id);
     })
 })
-
-
-
-
