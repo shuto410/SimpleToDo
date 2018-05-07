@@ -1,19 +1,21 @@
-var isMailComplete = false;
-var isPassComplete = false;
+let isMailComplete = false;
+let isPassComplete = false;
 
 
 //メールアドレス入力後チェック
-$(function () {
-    $('#mail_register').blur(function () {
+$(() => {
+    $('#mail_register').blur(() => {
+        const mail = $('#mail_register').val();
+        if(mail == '') return;
         fetch('php/checkMailAddress.php', {
             method: 'POST',
-            body: 'mail=' + $('#mail_register').val(),
+            body: `mail=${mail}`,
             headers: new Headers({
                 'Content-type': 'application/x-www-form-urlencoded'
             })
-        }).then(function (response) {
+        }).then(response => {
             return response.json();
-        }).then(function (json) {
+        }).then(json => {
             if (json.isMailAddress == false) {
                 //alert($('#info').text());
                 $('#mail_info').html('正しい形式ではありません。');
@@ -28,9 +30,9 @@ $(function () {
 })
 
 
-$(function () {
-    $('#password').blur(function () {
-        var pass = $('#password').val(); //パスワードの入力値を取得
+$(() => {
+    $('#password').blur(() => {
+        const pass = $('#password').val(); //パスワードの入力値を取得
         if (pass == "") return;
         if (pass.length < 8) {
             $('#pass_info').html('パスワードは8文字以上に設定してください');
@@ -42,10 +44,10 @@ $(function () {
     })
 })
 
-$(function () {
-    $('#confirm_password').blur(function () {
-        var pass = $('#password').val();
-        var pass_confirm = $('#confirm_password').val();
+$(() => {
+    $('#confirm_password').blur(() => {
+        const pass = $('#password').val();
+        const pass_confirm = $('#confirm_password').val();
         if (pass_confirm == "") return;
         if (pass != pass_confirm) {
             $('#pass_confirm_message').html('パスワードが一致しません。');
@@ -56,29 +58,29 @@ $(function () {
     })
 })
 
-$(function () {
-    $('#submit').click(function () {
-        var mail = $('#mail_register').val();
-        var pass = $('#password').val();
-        var name = $('#user_name').val();
+$(() => {
+    $('#submit').click(() => {
+        const mail = $('#mail_register').val();
+        const pass = $('#password').val();
+        const name = $('#user_name').val();
         if (!isMailComplete || !isPassComplete || $('#user_name').val() == "") {
             alert("retry!");
             return;
         }
         fetch("php/addAccount.php", {
             method: 'POST',
-            body: 'mail=' + mail + '&pass=' + pass + '&name=' + name,
+            body: `mail=${mail}&pass=${pass}&name=${name}`,
             headers: new Headers({
                 'Content-type': 'application/x-www-form-urlencoded'
             })
-        }).then(function (response) {
+        }).then(response => {
             return response.json();
-        }).then(function (json) {
+        }).then(json => {
             if (json.isSuccess == true) {
-                addTaskTab(function () {
+                addTaskTab(() => {
                     startSession(json.id);
                 }, 'ToDo', json.id);
-                addTaskTab(function(){
+                addTaskTab(() => {
                     window.location.href = 'service.html';
                 }, 'Shopping', json.id);
             } else {

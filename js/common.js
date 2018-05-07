@@ -5,26 +5,7 @@
 
 
 
-var startSession = function(id){
-    /*fetch("php/setSession.php", {
-        method: 'POST',
-        body: 'id=' + id,
-        headers: new Headers({
-            'Content-type': 'application/x-www-form-urlencoded'
-        })
-    }).then(function (response){
-        return response.json();
-    }).then(function(json){
-        if(json.isSuccess == true){
-            alert("set success");
-            console.log("set session success");
-        }
-        else{
-            alert("set failed");
-            console.log("set session failed");
-        }
-    })*/
-
+const startSession = (id) => {
     $.ajax({
         url: "php/setSession.php",
         type: "POST",
@@ -33,15 +14,15 @@ var startSession = function(id){
         },
         dataType: "json"
     })
-    .done(function(json){
+    .done(json => {
         alert(json.sessionId);
         //alert(.isSuccess);
         if(json.isSuccess == true){
-            alert("set success");
+            //alert("set success");
             console.log("set session success");
         }
         else{
-            alert("set failed");
+            //alert("set failed");
             console.log("set session failed");
         }
     });
@@ -49,27 +30,15 @@ var startSession = function(id){
 
 
 
-var getSessionB = function(){
+const getSessionB = () => {
     fetch("php/getSession.php", {
         method: 'POST',
         headers: new Headers({
             'Content-type': 'application/x-www-form-urlencoded'
         })
-    }).then(function (response){
+    }).then(response => {
         return response.json();
-    }).then(function(json){
-        /*return new Promise(function(resolve, reject){
-            if(json.isSuccess == true){
-                alert("get success");
-                console.log("get session success");
-                resolve(json.id);
-            }
-            else{
-                alert("get failed");
-                console.log("get session failed"+json.id);
-                reject("get session error!"+json.id);
-            }
-        });*/
+    }).then(json => {
         if(json.isSuccess == true){
             alert("get success");
             console.log("get session success");
@@ -84,22 +53,22 @@ var getSessionB = function(){
 }
 
 //タスク追加関数
-var addTaskTab = function(resolve, name, id){
+const addTaskTab = (resolve, name, id) => {
     fetch('php/addTab.php', {
         method: 'POST',
-        body: 'name=' + name + '&user_id=' + id,
+        body: `name=${name}&user_id=${id}`,
         headers: new Headers({
             'Content-type': 'application/x-www-form-urlencoded'
         })
-    }).then(function(response){
+    }).then((response) => {
         return response.json();
-    }).then(function(json){
+    }).then((json) => {
         if(json.isSuccess == true){
             resolve();
-            alert("success");
+            console.log("success");
         } 
         else{
-            alert("error");
+            console.log("error");
         }
     })
 }

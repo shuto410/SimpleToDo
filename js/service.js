@@ -1,23 +1,23 @@
-var TaskMgr = TaskMgr || {};
+let TaskMgr = {};
 
 
 //セッション取得
-var getSession = function(){
-    return new Promise(function(resolve, reject){
+const getSession = () => {
+    return new Promise((resolve, reject) => {
         $.ajax({
             url: "php/getSession.php",
             type: "POST",
             dataType: "json",
         })
-        .done(function(json){
+        .done(json => {
             if(json.isSuccess == true){
-                alert(json.sessionId);
+                //alert(json.sessionId);
                 console.log("get session success");
                 TaskMgr.id = json.id;
                 resolve(json.id);
             }
             else{
-                alert(json.sessionId);
+                //alert(json.sessionId);
                 console.log("get session failed"+json.sessionId);
                 reject();
             }
@@ -28,16 +28,16 @@ var getSession = function(){
 }
     
 //ログインidよりユーザ名の取得
-var getUserName = function(id){
+const getUserName = (id) => {
     return fetch("php/getUserName.php", {
         method: 'POST',
-        body:   'id=' + id,
+        body:   `id=${id}`,
         headers: new Headers({
             'Content-type': 'application/x-www-form-urlencoded'
         })
-    }).then(function(response){
+    }).then(response => {
         return response.json();
-    }).then(function(json){
+    }).then(json => {
         if(json.isSuccess == true){
             return json.name;
         } 
@@ -47,26 +47,26 @@ var getUserName = function(id){
 
 
 //サービス画面遷移時、ログインユーザー名表示
-window.addEventListener('load', function(){
-    getSession().then(getUserName, function(){
+window.addEventListener('load', () => {
+    getSession().then(getUserName, () => {
         window.location.href = 'login.html';
     })
-    .then(function(name){
-        $('#userid').text(name+"さんがログインしています");
+    .then((name) => {
+        $('#userid').text(`${name}さんがログインしています`);
     });
 });
 
 
 //タスクテーマの新規登録
-$(function(){
-    $('#add_task_tab').click(function(){
+$(() => {
+    $('#add_task_tab').click(() => {
         var tabName = window.prompt( "tab name" , "new tab" );
         if(tabName == null){ 
             alert("no inputs");
             return;
         }
-        addTaskTab(function(){
-            $('.nav-tabs').append($('<li class="nav-item">').append('<a href="#' + tabName + '" class="nav-link" data-toggle="tab">' + tabName + '</a>'));
+        addTaskTab(() => {
+            $('.nav-tabs').append($('<li class="nav-item">').append(`<a href="#${tabName}" class="nav-link" data-toggle="tab">${tabName}</a>`));
         }, tabName, TaskMgr.id);
     })
 })
