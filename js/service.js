@@ -35,11 +35,8 @@ const getUserName = async (id) => {
     }
 }
 
-
-//サービス画面遷移時、ログインユーザー名表示
-//登録タスクの取得
-document.addEventListener("DOMContentLoaded", async () => {
-    await getSession();
+//タブ表示
+const displayTab = async () => {
     const resp = await fetch("php/getTab.php", {
         method: 'POST',
         body: `user_id=${TaskMgr.id}`,
@@ -59,6 +56,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     else{
         return 'error';
     }
+}
+
+//サービス画面遷移時、ログインユーザー名表示
+//登録タスクの取得
+document.addEventListener("DOMContentLoaded", async () => {
+    await getSession();
+    await displayTab();
 });
 
 //タスクテーマの新規登録
@@ -69,9 +73,7 @@ $(() => {
             alert("no inputs");
             return;
         }
-        addTaskTab(() => {
-            $('.nav-tabs').append($('<li class="nav-item">').append(`<a href="#${tabName}" class="nav-link" data-toggle="tab">${tabName}</a>`));
-        }, tabName, TaskMgr.id);
+        addTaskTab(displayTab(), tabName, TaskMgr.id);
     })
 })
 
