@@ -37,7 +37,29 @@ const getUserName = async (id) => {
 
 
 //サービス画面遷移時、ログインユーザー名表示
-window.addEventListener('load', getSession());
+//登録タスクの取得
+document.addEventListener("DOMContentLoaded", async () => {
+    await getSession();
+    const resp = await fetch("php/getTab.php", {
+        method: 'POST',
+        body: `user_id=${TaskMgr.id}`,
+        headers: new Headers({
+            'Content-type': 'application/x-www-form-urlencoded'
+        })
+    }); 
+    const json = await resp.json();
+    if (json.isSuccess == true) {
+        //alert(json.size);
+        $(".nav-tabs").empty();
+        $('.nav-tabs').append($('<li class="nav-item">').append(`<a href="#tab0" class="nav-link active" data-toggle="tab">${json.tab_list[0]}</a>`));
+        for(let i = 1; i < json.tab_list.length; i++){
+            $('.nav-tabs').append($('<li class="nav-item">').append(`<a href="#tab${i}" class="nav-link" data-toggle="tab">${json.tab_list[i]}</a>`));
+        }
+    }
+    else{
+        return 'error';
+    }
+});
 
 //タスクテーマの新規登録
 $(() => {
@@ -53,22 +75,3 @@ $(() => {
     })
 })
 
-//登録タスクの取得
-$(() => {
-    $('#get_tab').click(async () => {
-        const resp = await fetch("php/getTab.php", {
-            method: 'POST',
-            body: `user_id=${TaskMgr.id}`,
-            headers: new Headers({
-                'Content-type': 'application/x-www-form-urlencoded'
-            })
-        }); 
-        const json = await resp.json();
-        if (json.isSuccess == true) {
-            alert(json.size);
-        }
-        else{
-            return 'error';
-        }
-    })
-})
