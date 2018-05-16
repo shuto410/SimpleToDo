@@ -7,6 +7,7 @@ function setSession(){
         $id = $_POST['id'];
         //try{
         $_SESSION['id'] = $id;
+        session_write_close();
         $result['isSuccess'] = true;
         $result['sessionId'] = session_id();
         //}

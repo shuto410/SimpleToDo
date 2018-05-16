@@ -5,27 +5,25 @@
 
 
 
-const startSession = (id) => {
-    $.ajax({
-        url: "php/setSession.php",
-        type: "POST",
-        data: {
-            "id" : id
-        },
-        dataType: "json"
+const startSession = async (id) => {
+    const resp = await fetch("php/setSession.php", {
+        method: 'POST',
+        body: `id=${id}`,
+        headers: new Headers({
+            'Content-type': 'application/x-www-form-urlencoded'
+        })
     })
-    .done(json => {
-        alert(json.sessionId);
-        //alert(.isSuccess);
-        if(json.isSuccess == true){
-            //alert("set success");
-            console.log("set session success");
-        }
-        else{
-            //alert("set failed");
-            console.log("set session failed");
-        }
-    });
+    const json = await resp.json();
+    alert(json.sessionId);
+    //alert(.isSuccess);
+    if(json.isSuccess == true){
+        //alert("set success");
+        console.log("set session success");
+    }
+    else{
+        //alert("set failed");
+         console.log("set session failed");
+    }
 }
 
 
