@@ -60,3 +60,22 @@ $(() => {
         }, tabName, TaskMgr.id);
     })
 })
+
+$(() => {
+    $('#get_tab').click(async () => {
+        const resp = await fetch("php/getTab.php", {
+            method: 'POST',
+            body: `user_id=${TaskMgr.id}`,
+            headers: new Headers({
+                'Content-type': 'application/x-www-form-urlencoded'
+            })
+        }); 
+        const json = await resp.json();
+        if (json.isSuccess == true) {
+            alert(json.size);
+        }
+        else{
+            return 'error';
+        }
+    })
+})
