@@ -3,18 +3,17 @@ let TaskMgr = {};
 
 //セッション取得
 const getSession = async () => {
-    const resp = await fetch("php/getSession.php");
+    const resp = await fetch("php/getSession.php",{
+        credentials: "same-origin"
+      });
     const json = await resp.json();
     if (json.isSuccess == true) {
-        //alert(json.sessionId);
         console.log("get session success");
         TaskMgr.id = json.id;
         const name = await getUserName(json.id);
         $('#userid').text(`${name}さんがログインしています`);
     } else {
-        //alert(json.sessionId);
         console.log("get session failed" + json.sessionId);
-        //window.location.href = 'index.html';
     }
 }
 
@@ -39,14 +38,7 @@ const getUserName = async (id) => {
 
 
 //サービス画面遷移時、ログインユーザー名表示
-//window.addEventListener('load', getSession());
-
-window.addEventListener('load', () => {
-    const elem = document.getElementById("get_id");
-    elem.addEventListener('click', () => {
-        getSession();
-    });
-});
+window.addEventListener('load', getSession());
 
 
 

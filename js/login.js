@@ -36,38 +36,27 @@ $(() => {
     $('#submit').click(() => {
         const mail = $('#inputEmail').val();
         const pass = $('#inputPassword').val();
-
-        //php = php + '?mail=' + mail + '&pass=' + pass;
-
-        fetch(`${php}?mail=${mail}&pass=${pass}`,
-            /*{
-                       method: 'POST',
-                       body: 'mail=' + mail + '&pass=' + pass,
-                       headers: new Headers({
-                           'Content-type': 'application/x-www-form-urlencoded'
-                       })
-                   }*/
-        ).then(response => {
-            return response.json();
-        }).then(json => {
-            // textに文字列で結果が渡される
-            console.log(`${json.isSuccess} id : ${json.id}`);
-
-            //$("#result").html("failed");
-            if (json.isSuccess == true) {
-                startSession(json.id);
-                //window.open('service.html', '_blank');
-                window.location.href = 'service.html';
+        const resp = await fetch(php, {
+            method: 'POST',
+            body: 'mail=' + mail + '&pass=' + pass,
+            headers: new Headers({
+                'Content-type': 'application/x-www-form-urlencoded'
+            })           
+        })
+        const json = await resp.json();
+        // textに文字列で結果が渡される
+        console.log(`${json.isSuccess} id : ${json.id}`);
+        if (json.isSuccess == true) {
+            startSession(json.id);
+            window.location.href = 'service.html';
+        } else {
+            if ($('#failed-alert').length) {
+                ALERT.hide();
+                ALERT.show();
             } else {
-                if ($('#failed-alert').length) {
-                    ALERT.hide();
-                    ALERT.show();
-                } else {
-                    ALERT.show();
-                }
+                ALERT.show();
             }
-
-        });
+        }
     })
 })
 

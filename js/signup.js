@@ -4,28 +4,25 @@ let isPassComplete = false;
 
 //メールアドレス入力後チェック
 $(() => {
-    $('#mail_register').blur(() => {
+    $('#mail_register').blur(async () => {
         const mail = $('#mail_register').val();
         if(mail == '') return;
-        fetch('php/checkMailAddress.php', {
+        const resp = await fetch('php/checkMailAddress.php', {
             method: 'POST',
             body: `mail=${mail}`,
             headers: new Headers({
                 'Content-type': 'application/x-www-form-urlencoded'
             })
-        }).then(response => {
-            return response.json();
-        }).then(json => {
-            if (json.isMailAddress == false) {
-                //alert($('#info').text());
-                $('#mail_info').html('正しい形式ではありません。');
-            } else if (json.isUsed) {
-                $('#mail_info').html('このメールアドレスは使用されています。');
-            } else {
-                $('#mail_info').html('&#10003');
-                isMailComplete = true;
-            }
         })
+        const json = await resp.json();
+        if (json.isMailAddress == false) {
+            $('#mail_info').html('正しい形式ではありません。');
+        } else if (json.isUsed) {
+            $('#mail_info').html('このメールアドレスは使用されています。');
+        } else {
+            $('#mail_info').html('&#10003');
+            isMailComplete = true;
+        }
     })
 })
 
@@ -59,7 +56,7 @@ $(() => {
 })
 
 $(() => {
-    $('#submit').click(() => {
+    $('#submit').click(async () => {
         const mail = $('#mail_register').val();
         const pass = $('#password').val();
         const name = $('#user_name').val();
@@ -67,25 +64,23 @@ $(() => {
             alert("retry!");
             return;
         }
-        fetch("php/addAccount.php", {
+        const resp = await fetch("php/addAccount.php", {
             method: 'POST',
             body: `mail=${mail}&pass=${pass}&name=${name}`,
             headers: new Headers({
                 'Content-type': 'application/x-www-form-urlencoded'
             })
-        }).then(response => {
-            return response.json();
-        }).then(json => {
-            if (json.isSuccess == true) {
-                addTaskTab(() => {
-                    startSession(json.id);
-                }, 'ToDo', json.id);
-                addTaskTab(() => {
-                    window.location.href = 'service.html';
-                }, 'Shopping', json.id);
-            } else {
-                alert("failed!");
-            }
         })
+        const json = await resp.json();
+        if (json.isSuccess == true) {
+            addTaskTab(() => {
+                startSession(json.id);
+            }, 'ToDo', json.id);
+            addTaskTab(() => {
+                window.location.href = 'service.html';
+            }, 'Shopping', json.id);
+        } else {
+            alert("failed!");
+        }
     })
 })
