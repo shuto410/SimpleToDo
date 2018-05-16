@@ -14,6 +14,10 @@ function getTab(){
         $result['size'] = mysqli_num_rows($queryResponse);
         if($result['size'] > 0){
             $result['isSuccess'] = true;
+            for($i = 0; $i < $result['size']; $i++){
+                $row = mysqli_fetch_array($queryResponse, MYSQLI_ASSOC);
+                array_push($result['tab_list'], $row['name']);
+            }
         }
     }
 

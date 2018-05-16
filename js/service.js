@@ -36,11 +36,8 @@ const getUserName = async (id) => {
 }
 
 
-
 //サービス画面遷移時、ログインユーザー名表示
 window.addEventListener('load', getSession());
-
-
 
 //タスクテーマの新規登録
 $(() => {
@@ -56,6 +53,7 @@ $(() => {
     })
 })
 
+//登録タスクの取得
 $(() => {
     $('#get_tab').click(async () => {
         const resp = await fetch("php/getTab.php", {
