@@ -28,20 +28,18 @@ const getSession = () => {
 }
     
 //ログインidよりユーザ名の取得
-const getUserName = (id) => {
-    return fetch("php/getUserName.php", {
+const getUserName = async (id) => {
+    const resp = await fetch("php/getUserName.php", {
         method: 'POST',
         body:   `id=${id}`,
         headers: new Headers({
             'Content-type': 'application/x-www-form-urlencoded'
         })
-    }).then(response => {
-        return response.json();
-    }).then(json => {
-        if(json.isSuccess == true){
-            return json.name;
-        } 
     })
+    const json = await resp.json();
+    if(json.isSuccess == true){
+        return json.name;
+    } 
 }
 
 
