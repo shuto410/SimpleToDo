@@ -27,7 +27,7 @@ const startSession = async (id) => {
 
 
 //タスク追加関数
-const addTaskTab = async (resolve, name, id) => {
+const addTaskTab = async (name, id) => {
     const resp = await fetch('php/addTab.php', {
         method: 'POST',
         body: `name=${name}&user_id=${id}`,
@@ -37,7 +37,6 @@ const addTaskTab = async (resolve, name, id) => {
     })
     const json = await resp.json();
     if(json.isSuccess == true){
-        resolve();
         console.log("success");
     } 
     else{

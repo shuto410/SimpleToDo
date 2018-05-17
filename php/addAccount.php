@@ -6,13 +6,15 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
 function addAccount(){
-    $result = array('result' => false, 'id' => 0);
+    $result = array('isSuccess' => false, 'id' => 0);
 
     if(isset($_POST['mail']) AND isset($_POST['pass']) AND isset($_POST['name'])){
         //入力値のサニタイズ
         $mail = sanitizeString($_POST['mail']);
         $pass = sanitizeString($_POST['pass']);
         $name = sanitizeString($_POST['name']);
+
+        if(empty($mail) OR empty($pass) OR empty($name)) return;
         //パスワードのハッシュ化
         $hashpass = password_hash($pass, PASSWORD_DEFAULT);
     

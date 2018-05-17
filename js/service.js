@@ -58,6 +58,23 @@ const displayTab = async () => {
     }
 }
 
+const deleteTab = async (tab_name) => {
+    const resp = await fetch("php/deleteTab.php", {
+        method: 'POST',
+        body: `user_id=${TaskMgr.id}&name=${tab_name}`,
+        headers: new Headers({
+            'Content-type': 'application/x-www-form-urlencoded'
+        })
+    }); 
+    const json = await resp.json();
+    if (json.isSuccess == true) {
+        return true;
+    }
+    else{
+        return 'error';
+    }
+}
+
 //サービス画面遷移時、ログインユーザー名表示
 //登録タスクの取得
 document.addEventListener("DOMContentLoaded", async () => {
@@ -67,13 +84,21 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 //タスクテーマの新規登録
 $(() => {
-    $('#add_task_tab').click(() => {
+    $('#add_task_tab').click(async () => {
         var tabName = window.prompt("tab name", "new tab");
         if (tabName == null) {
             alert("no inputs");
             return;
         }
-        addTaskTab(displayTab(), tabName, TaskMgr.id);
+        await addTaskTab(tabName, TaskMgr.id);
+        displayTab();
     })
 })
 
+//タスクタブの削除
+$(() => {
+    $('#delete_tab').click(async () => {
+       await deleteTab($(".nav-link, .active").val());
+       displayTab();
+    })
+})
