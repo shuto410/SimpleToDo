@@ -48,9 +48,10 @@ const displayTab = async () => {
     if (json.isSuccess == true) {
         //alert(json.size);
         $(".nav-tabs").empty();
-        $('.nav-tabs').append($('<li class="nav-item">').append(`<a href="#tab0" class="nav-link active" data-toggle="tab">${json.tab_list[0]}</a>`));
+        if(json.size == 0) return;       //タブ数が0だったら描画しない
+        $('.nav-tabs').append($('<li class="nav-item">').append(`<a href="#tab0" id="tab0" class="nav-link active" data-toggle="tab">${json.tab_list[0]}</a>`));
         for(let i = 1; i < json.tab_list.length; i++){
-            $('.nav-tabs').append($('<li class="nav-item">').append(`<a href="#tab${i}" class="nav-link" data-toggle="tab">${json.tab_list[i]}</a>`));
+            $('.nav-tabs').append($('<li class="nav-item">').append(`<a href="#tab${i}" id="tab${i}" class="nav-link" data-toggle="tab">${json.tab_list[i]}</a>`));
         }
     }
     else{
@@ -98,7 +99,7 @@ $(() => {
 //タスクタブの削除
 $(() => {
     $('#delete_tab').click(async () => {
-       await deleteTab($(".nav-link, .active").val());
-       displayTab();
+       const ret = await deleteTab($(".nav-tabs .active").text());
+       if(ret == true) displayTab();
     })
 })
