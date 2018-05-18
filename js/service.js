@@ -1,15 +1,19 @@
-let TaskMgr = {};
+let TaskMgr = {
+    user_id = null,
+    tab_ids = [],
+    task_ids = {}  
+};
 
 
 //セッション取得
 const getSession = async () => {
     const resp = await fetch("php/getSession.php",{
         credentials: "same-origin"
-      });
+    });
     const json = await resp.json();
     if (json.isSuccess == true) {
         console.log("get session success");
-        TaskMgr.id = json.id;
+        TaskMgr.user_id = json.id;
         const name = await getUserName(json.id);
         $('#userid').text(`${name}さんがログインしています`);
     } else {
@@ -39,7 +43,7 @@ const getUserName = async (id) => {
 const displayTab = async () => {
     const resp = await fetch("php/getTab.php", {
         method: 'POST',
-        body: `user_id=${TaskMgr.id}`,
+        body: `user_id=${TaskMgr.user_id}`,
         headers: new Headers({
             'Content-type': 'application/x-www-form-urlencoded'
         })
@@ -49,9 +53,9 @@ const displayTab = async () => {
         //alert(json.size);
         $(".nav-tabs").empty();
         if(json.size == 0) return;       //タブ数が0だったら描画しない
-        $('.nav-tabs').append($('<li class="nav-item">').append(`<a href="#tab0" id="tab0" class="nav-link active" data-toggle="tab">${json.tab_list[0]}</a>`));
+        $('.nav-tabs').append($('<li class="nav-item">').append(`<a href="#tab0" class="nav-link active" data-toggle="tab">${json.tab_list[0]}</a>`));
         for(let i = 1; i < json.tab_list.length; i++){
-            $('.nav-tabs').append($('<li class="nav-item">').append(`<a href="#tab${i}" id="tab${i}" class="nav-link" data-toggle="tab">${json.tab_list[i]}</a>`));
+            $('.nav-tabs').append($('<li class="nav-item">').append(`<a href="#tab${i}" class="nav-link" data-toggle="tab">${json.tab_list[i]}</a>`));
         }
     }
     else{
@@ -59,10 +63,10 @@ const displayTab = async () => {
     }
 }
 
-const deleteTab = async (tab_name) => {
-    const resp = await fetch("php/deleteTab.php", {
+const removeTab = async (tab_name) => {
+    const resp = await fetch("php/removeTab.php", {
         method: 'POST',
-        body: `user_id=${TaskMgr.id}&name=${tab_name}`,
+        body: `user_id=${TaskMgr.user_id}&name=${tab_name}`,
         headers: new Headers({
             'Content-type': 'application/x-www-form-urlencoded'
         })
@@ -72,7 +76,7 @@ const deleteTab = async (tab_name) => {
         return true;
     }
     else{
-        return 'error';
+        return false;
     }
 }
 
@@ -81,6 +85,7 @@ const deleteTab = async (tab_name) => {
 document.addEventListener("DOMContentLoaded", async () => {
     await getSession();
     await displayTab();
+    
 });
 
 //タスクテーマの新規登録
@@ -91,15 +96,23 @@ $(() => {
             alert("no inputs");
             return;
         }
-        await addTaskTab(tabName, TaskMgr.id);
+        const tab_id = await addTaskTab(tabName, TaskMgr.user_id);
+        TaskMgr.tab_ids.push(tab_id);
         displayTab();
     })
 })
 
 //タスクタブの削除
 $(() => {
-    $('#delete_tab').click(async () => {
-       const ret = await deleteTab($(".nav-tabs .active").text());
+    $('#remove_tab').click(async () => {
+       const ret = await removeTab($(".nav-tabs .active").text());
        if(ret == true) displayTab();
+    })
+})
+
+//タスクの追加
+$(() => {
+    $('#add_task').click(async () => {
+      
     })
 })

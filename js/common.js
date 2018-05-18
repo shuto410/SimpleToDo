@@ -27,6 +27,7 @@ const startSession = async (id) => {
 
 
 //タスク追加関数
+//登録したタスクタブのidを返す
 const addTaskTab = async (name, id) => {
     const resp = await fetch('php/addTab.php', {
         method: 'POST',
@@ -38,8 +39,10 @@ const addTaskTab = async (name, id) => {
     const json = await resp.json();
     if(json.isSuccess == true){
         console.log("success");
+        return json.id;
     } 
     else{
         console.log("error");
+        return null;
     }
 }

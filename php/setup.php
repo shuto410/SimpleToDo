@@ -21,8 +21,10 @@ createTable('task_tabs',
             id INT UNSIGNED NOT NULL AUTO_INCREMENT KEY');
 
 createTable('tasks',
-            'name VARCHAR(50),
-            tab_id INT');
+            'title VARCHAR(50),
+            description VARCHAR(200),
+            tab_id INT,
+            id INT UNSIGNED NOT NULL AUTO_INCREMENT KEY');
 
 ?>
 

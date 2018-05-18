@@ -5,7 +5,7 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
 
-function deleteTab(){
+function removeTab(){
     $result = array('isSuccess' => false);
 
     if(isset($_POST['user_id']) AND isset($_POST['name'])){
@@ -20,6 +20,6 @@ function deleteTab(){
     return json_encode($result);
 }
 
-echo deleteTab();
+echo removeTab();
 
 ?>

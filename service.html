@@ -7,7 +7,7 @@
     <script src="js/common.js"></script>
     <script src="js/service.js"></script>
     <script src="js/bootstrap/bootstrap.min.js"></script>
-    
+
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
@@ -58,29 +58,43 @@
         <h1>service</h1>
         <div id="userid"></div>
         <button type="button" class="btn btn-lg btn-primary" id="add_task_tab">new task tab</button>
-        <button type="button" class="btn btn-lg btn-primary" id="get_id">get id</button>
-        <button type="button" class="btn btn-lg btn-primary" id="get_tab">get tab</button>
-        <button type="button" class="btn btn-lg btn-primary" id="delete_tab">delete tab</button>
+        <button type="button" class="btn btn-lg btn-primary" id="delete_tab">remove tab</button>
+        <button type="button" class="btn btn-lg btn-primary" id="add_task">add task </button>
+
 
         <div class="p-3">
             <!-- タブボタン部分 -->
             <ul class="nav nav-tabs"></ul>
-          
+
             <!--タブのコンテンツ部分-->
-            <div class="tab-content">
-              <div id="tab1" class="tab-pane active">
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/221808/photo1.jpg" alt="" class="img-fluid">
-              </div>
-              <div id="tab2" class="tab-pane">
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/221808/photo2.jpg" alt="" class="img-fluid">
-              </div>
-              <div id="tab3" class="tab-pane">
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/221808/photo3.jpg" alt="" class="img-fluid">
-              </div>
-              <div id="tab4" class="tab-pane">
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/221808/photo4.jpg" alt="" class="img-fluid">
-              </div>
+            <div class="tab-content mt-3">
+                <div id="tab0" class="tab-pane active">
+                    <div class="card" style="width: 20rem;">
+                        <div class="card-header text-white bg-success">
+                            title
+                        </div>
+                        <div class="card-body bg-light">
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        </div>
+                    </div>
+                </div>
+                <div id="tab1" class="tab-pane">
+                    <div class="card" style="width: 20rem;">
+                        <div class="card-header text-white bg-danger">
+                            title2
+                        </div>
+                        <div class="card-body bg-light">
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        </div>
+                    </div>
+                </div>
+                <div id="tab2" class="tab-pane">
+                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/221808/photo3.jpg" alt="" class="img-fluid">
+                </div>
+                <div id="tab3" class="tab-pane">
+                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/221808/photo4.jpg" alt="" class="img-fluid">
+                </div>
             </div>
-          </div>
+        </div>
     </body>
 </head>
