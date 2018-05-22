@@ -113,7 +113,7 @@ const removeTab = async (tab_name) => {
 const addTask = async (title, description, tab_id) => {
     const resp = await fetch("php/addTask.php", {
         method: 'POST',
-        body: `title=${title}&description=${description}&tab_id=${tab_id}&user_id${TaskMgr.user_id}`,
+        body: `title=${title}&description=${description}&tab_id=${tab_id}&user_id=${TaskMgr.user_id}`,
         headers: new Headers({
             'Content-type': 'application/x-www-form-urlencoded'
         })

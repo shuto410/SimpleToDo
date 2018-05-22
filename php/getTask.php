@@ -1,8 +1,8 @@
 <?php
 include_once 'functions.php';
 
-//ini_set('display_errors', 1);
-//error_reporting(E_ALL);
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
 //引数のユーザIDのタブ名を配列で取得する
 function getTask(){
@@ -16,7 +16,12 @@ function getTask(){
             $result['isSuccess'] = true;
             for($i = 0; $i < $size; $i++){
                 $row = mysqli_fetch_array($queryResponse, MYSQLI_ASSOC);
-                $result['tasks'][$row['tab_id']] = array( 'title' => $row['title'], 'description' => $row['description'], 'id' => $row['id']);
+                if(!array_key_exists($row['tab_id'], $result['tasks']){
+                    //$result['tasks'][$row['tab_id']] = array(array( 'title' => $row['title'], 'description' => $row['description'], 'id' => $row['id']));
+                }
+                else{
+                    //array_push($result['tasks'][$row['tab_id']], array( 'title' => $row['title'], 'description' => $row['description'], 'id' => $row['id']));
+                }
             }
         }
     }
@@ -24,6 +29,6 @@ function getTask(){
     return json_encode($result);
 }
 
-echo getTab();
+echo getTask();
 
 ?>
