@@ -19,23 +19,22 @@ ALERT.create = (alert_type, message) => {
     return alert;
 };
 
-ALERT.hide = () => {
-    console.log('Hide alert');
-    $('#failed-alert').alert('close');
-    setTimeout(showAlert, update_msec);
-};
-
 ALERT.show = () => {
     console.log('Show alert');
     $('#alert_col').append(ALERT.create('info', "Your email address or password is incorrect. Please check and try again."));
 };
 
+ALERT.hide = () => {
+    console.log('Hide alert');
+    setTimeout(ALERT.show(), 500);
+};
+
 
 $(() => {
     const php = "php/login.php";
-    $('#submit').click(() => {
-        const mail = $('#inputEmail').val();
-        const pass = $('#inputPassword').val();
+    $('#submit').click(async () => {
+        const mail = await $('#inputEmail').val();
+        const pass = await $('#inputPassword').val();
         const resp = await fetch(php, {
             method: 'POST',
             body: 'mail=' + mail + '&pass=' + pass,

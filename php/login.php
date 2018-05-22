@@ -11,17 +11,17 @@ function login(){
     $mail = "null";
     $pass = "null";
 
-    if (isset($_GET['mail']) AND isset($_GET['pass'])){
+    if (isset($_POST['mail']) AND isset($_POST['pass'])){
         //入力値サニタイズ
-        $mail = sanitizeString($_GET['mail']);
-        $pass = sanitizeString($_GET['pass']);
+        $mail = sanitizeString($_POST['mail']);
+        $pass = sanitizeString($_POST['pass']);
 
         //メールアドレスの一致したユーザーのパスワード抽出
         $resultUsers = queryMysql("SELECT * FROM users WHERE mail='$mail'");
         $dbHashedPwd = getDatabaseMatch($resultUsers, 'pass');
         $resultUsers = queryMysql("SELECT * FROM users WHERE mail='$mail'");
         $dbId = getDatabaseMatch($resultUsers, 'id');
-
+            
         if (mysqli_num_rows($resultUsers)){
             if(password_verify($pass, $dbHashedPwd)){
                 $result['isSuccess'] = true; 

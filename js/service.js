@@ -1,7 +1,7 @@
 let TaskMgr = {
-    user_id = null,
-    tab_ids = [],
-    task_ids = {}  
+    user_id : null,
+    tabs : {},
+    tasks : {}  
 };
 
 
@@ -52,12 +52,12 @@ const displayTab = async () => {
     if (json.isSuccess == true) {
         //alert(json.size);
         $(".nav-tabs").empty();
-        if(json.size == 0) return;       //タブ数が0だったら描画しない
-        TaskMgr.tab_ids[0] = json.tabs.id[0];
-        $('.nav-tabs').append($('<li class="nav-item">').append(`<a href="#tab0" class="nav-link active" data-toggle="tab">${json.tabs.name[0]}</a>`));
-        for(let i = 1; i < json.tabs.name.length; i++){
-            TaskMgr.tab_ids[i] = json.tabs.id[i];
-            $('.nav-tabs').append($('<li class="nav-item">').append(`<a href="#tab${i}" class="nav-link" data-toggle="tab">${json.tabs.name[i]}</a>`));
+        if(json.tabs.length == 0) return;       //タブ数が0だったら描画しない
+        TaskMgr.tabs[0] = { "id" : json.tabs[0].id, "name" : json.tabs[0].name };
+        $('.nav-tabs').append($('<li class="nav-item">').append(`<a href="#tab0" class="nav-link active" data-toggle="tab">${json.tabs[0].name}</a>`));
+        for(let i = 1; i < json.tabs.length; i++){
+            TaskMgr.tabs[i] = { "id" : json.tabs[i].id, "name" : json.tabs[i].name };
+            $('.nav-tabs').append($('<li class="nav-item">').append(`<a href="#tab${i}" class="nav-link" data-toggle="tab">${json.tabs[i].name}</a>`));
         }
     }
     else{
@@ -65,6 +65,7 @@ const displayTab = async () => {
     }
 }
 
+//タブ削除
 const removeTab = async (tab_name) => {
     const resp = await fetch("php/removeTab.php", {
         method: 'POST',
@@ -75,6 +76,24 @@ const removeTab = async (tab_name) => {
     }); 
     const json = await resp.json();
     if (json.isSuccess == true) {
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
+//タスク追加
+const addTask = async (title, description, tab_id) => {
+    const resp = await fetch("php/addTask.php", {
+        method: 'POST',
+        body: `title=${title}&description=${description}&tab_id=${tab_id}`,
+        headers: new Headers({
+            'Content-type': 'application/x-www-form-urlencoded'
+        })
+    });
+    const json = await resp.text();   
+    if(json.isSuccess == true){
         return true;
     }
     else{
@@ -115,6 +134,19 @@ $(() => {
 //タスクの追加
 $(() => {
     $('#add_task').click(async () => {
-      
+        const pos = Number($('.nav-tabs .active').attr("href").slice(4));
+        const id = Number(TaskMgr.tabs[pos].id);
+        var taskTitle = window.prompt("title", "new task");
+        if (taskTitle == null) {
+            alert("no inputs");
+            return;
+        }
+        var taskDescript = window.prompt("Descript", "about new task");
+        if (taskDescript == null) {
+            alert("no inputs");
+            return;
+        }
+        const ret = await addTask(taskTitle, taskDescript, id);
+        //if(ret == true) ;
     })
 })

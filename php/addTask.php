@@ -17,11 +17,14 @@ function addTask(){
         
         if(empty($title) OR empty($tab_id)) return;
     
-        $queryResult = queryMysql("INSERT INTO tasks(title, description, tab_id) VALUES('$title', '$description', '$tab_id')");
+        $queryResult = queryMysql("INSERT INTO tasks(title, description, tab_id) VALUES('$title', '$description', $tab_id)");
         if($queryResult == true){
             $result['isSuccess'] = true;
             $result['id'] = mysqli_insert_id($dblink);
         }
+    }
+    else{
+        $result['isSuccess'] = "unset";
     }
 
     return json_encode($result);
