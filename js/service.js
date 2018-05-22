@@ -65,6 +65,32 @@ const displayTab = async () => {
     }
 }
 
+//タスク表示
+const displayTask = async () => {
+    const resp = await fetch("php/getTask.php", {
+        method: 'POST',
+        body: `user_id=${TaskMgr.user_id}`,
+        headers: new Headers({
+            'Content-type': 'application/x-www-form-urlencoded'
+        })
+    }); 
+    const json = await resp.json();
+    if (json.isSuccess == true) {
+        //alert(json.size);
+        $(".nav-tabs").empty();
+        if(json.tabs.length == 0) return;       //タブ数が0だったら描画しない
+        TaskMgr.tabs[0] = { "id" : json.tabs[0].id, "name" : json.tabs[0].name };
+        $('.nav-tabs').append($('<li class="nav-item">').append(`<a href="#tab0" class="nav-link active" data-toggle="tab">${json.tabs[0].name}</a>`));
+        for(let i = 1; i < json.tabs.length; i++){
+            TaskMgr.tabs[i] = { "id" : json.tabs[i].id, "name" : json.tabs[i].name };
+            $('.nav-tabs').append($('<li class="nav-item">').append(`<a href="#tab${i}" class="nav-link" data-toggle="tab">${json.tabs[i].name}</a>`));
+        }
+    }
+    else{
+        return 'error';
+    }
+}
+
 //タブ削除
 const removeTab = async (tab_name) => {
     const resp = await fetch("php/removeTab.php", {
@@ -87,7 +113,7 @@ const removeTab = async (tab_name) => {
 const addTask = async (title, description, tab_id) => {
     const resp = await fetch("php/addTask.php", {
         method: 'POST',
-        body: `title=${title}&description=${description}&tab_id=${tab_id}`,
+        body: `title=${title}&description=${description}&tab_id=${tab_id}&user_id${TaskMgr.user_id}`,
         headers: new Headers({
             'Content-type': 'application/x-www-form-urlencoded'
         })
@@ -117,8 +143,7 @@ $(() => {
             alert("no inputs");
             return;
         }
-        const tab_id = await addTaskTab(tabName, TaskMgr.user_id);
-        TaskMgr.tab_ids.push(tab_id);
+        await addTaskTab(tabName, TaskMgr.user_id);
         displayTab();
     })
 })
@@ -131,7 +156,7 @@ $(() => {
     })
 })
 
-//タスクの追加
+//タスクの新規登録
 $(() => {
     $('#add_task').click(async () => {
         const pos = Number($('.nav-tabs .active').attr("href").slice(4));
