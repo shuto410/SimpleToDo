@@ -53,9 +53,11 @@ const displayTab = async () => {
         //alert(json.size);
         $(".nav-tabs").empty();
         if(json.size == 0) return;       //タブ数が0だったら描画しない
-        $('.nav-tabs').append($('<li class="nav-item">').append(`<a href="#tab0" class="nav-link active" data-toggle="tab">${json.tab_list[0]}</a>`));
-        for(let i = 1; i < json.tab_list.length; i++){
-            $('.nav-tabs').append($('<li class="nav-item">').append(`<a href="#tab${i}" class="nav-link" data-toggle="tab">${json.tab_list[i]}</a>`));
+        TaskMgr.tab_ids[0] = json.tabs.id[0];
+        $('.nav-tabs').append($('<li class="nav-item">').append(`<a href="#tab0" class="nav-link active" data-toggle="tab">${json.tabs.name[0]}</a>`));
+        for(let i = 1; i < json.tabs.name.length; i++){
+            TaskMgr.tab_ids[i] = json.tabs.id[i];
+            $('.nav-tabs').append($('<li class="nav-item">').append(`<a href="#tab${i}" class="nav-link" data-toggle="tab">${json.tabs.name[i]}</a>`));
         }
     }
     else{
