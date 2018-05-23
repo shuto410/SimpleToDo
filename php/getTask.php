@@ -16,17 +16,17 @@ function getTask(){
             $result['isSuccess'] = true;
             for($i = 0; $i < $size; $i++){
                 $row = mysqli_fetch_array($queryResponse, MYSQLI_ASSOC);
-                if(!array_key_exists($row['tab_id'], $result['tasks']){
-                    //$result['tasks'][$row['tab_id']] = array(array( 'title' => $row['title'], 'description' => $row['description'], 'id' => $row['id']));
+                if(!array_key_exists($row['tab_id'], $result['tasks'])){
+                    $result['tasks'][$row['tab_id']] = array(array( 'title' => $row['title'], 'description' => $row['description'], 'id' => $row['id']));
                 }
                 else{
-                    //array_push($result['tasks'][$row['tab_id']], array( 'title' => $row['title'], 'description' => $row['description'], 'id' => $row['id']));
+                    array_push($result['tasks'][$row['tab_id']], array( 'title' => $row['title'], 'description' => $row['description'], 'id' => $row['id']));
                 }
             }
         }
     }
 
-    return json_encode($result);
+    return json_encode($result, JSON_PRETTY_PRINT);
 }
 
 echo getTask();
