@@ -78,12 +78,16 @@ const displayTask = async () => {
     if (json.isSuccess == true) {
         //alert(json.size);
         $(".nav-tabs").empty();
-        if(json.tabs.length == 0) return;       //タブ数が0だったら描画しない
-        TaskMgr.tabs[0] = { "id" : json.tabs[0].id, "name" : json.tabs[0].name };
-        $('.nav-tabs').append($('<li class="nav-item">').append(`<a href="#tab0" class="nav-link active" data-toggle="tab">${json.tabs[0].name}</a>`));
-        for(let i = 1; i < json.tabs.length; i++){
-            TaskMgr.tabs[i] = { "id" : json.tabs[i].id, "name" : json.tabs[i].name };
-            $('.nav-tabs').append($('<li class="nav-item">').append(`<a href="#tab${i}" class="nav-link" data-toggle="tab">${json.tabs[i].name}</a>`));
+        if(json.tasks.length == 0) return;       //タスク数が0だったら描画しない
+        TaskMgr.tasks = json.tasks;
+        let tab_num = 0;
+        for(const tab of json.tasks){
+            $('.tab-content').append(`<div id="tab${i}" class="tab-pane active">`);
+            for(const task of tab){
+                $('.tab-pane').append($('<div class="card mb-3" style="width: 20rem;">').append(`<div class="card-header text-white bg-success">${task.title}</div>`, 
+                                        `<div class="card-body bg-light"><p class="card-text">${task.description}</p></div>`));
+            }
+            tab_num++;
         }
     }
     else{
