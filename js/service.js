@@ -1,7 +1,7 @@
 let TaskMgr = {
     user_id : null,
     tabs : {},
-    tasks : {}  
+    tasks : {},
 };
 
 
@@ -53,12 +53,22 @@ const displayTab = async () => {
         //alert(json.size);
         $(".nav-tabs").empty();
         if(json.tabs.length == 0) return;       //タブ数が0だったら描画しない
-        TaskMgr.tabs[0] = { "id" : json.tabs[0].id, "name" : json.tabs[0].name };
-        $('.nav-tabs').append($('<li class="nav-item">').append(`<a href="#tab0" class="nav-link active" data-toggle="tab">${json.tabs[0].name}</a>`));
-        for(let i = 1; i < json.tabs.length; i++){
-            TaskMgr.tabs[i] = { "id" : json.tabs[i].id, "name" : json.tabs[i].name };
-            $('.nav-tabs').append($('<li class="nav-item">').append(`<a href="#tab${i}" class="nav-link" data-toggle="tab">${json.tabs[i].name}</a>`));
+        TaskMgr.tabs = json.tabs;
+        //TaskMgr.tabs[0] = { "id" : json.tabs[0].id, "name" : json.tabs[0].name };
+        //$('.nav-tabs').append($('<li class="nav-item">').append(`<a href="#tab0" class="nav-link active" data-toggle="tab">${json.tabs[0].name}</a>`));
+        //for(let i = 1; i < json.tabs.length; i++){
+            //TaskMgr.tabs[i] = { "id" : json.tabs[i].id, "name" : json.tabs[i].name };
+            //$('.nav-tabs').append($('<li class="nav-item">').append(`<a href="#tab${i}" class="nav-link" data-toggle="tab">${json.tabs[i].name}</a>`));
+        //}
+        for(let id of Object.keys(json.tabs)){
+            if(id == Object.keys(json.tabs)[0]){
+                $('.nav-tabs').append($('<li class="nav-item">').append(`<a href="#tab${id}" class="nav-link active" data-toggle="tab">${json.tabs[id]}</a>`));
+            }
+            else{
+                $('.nav-tabs').append($('<li class="nav-item">').append(`<a href="#tab${id}" class="nav-link" data-toggle="tab">${json.tabs[id]}</a>`));
+            }
         }
+
     }
     else{
         return 'error';
@@ -80,15 +90,33 @@ const displayTask = async () => {
         $(".tab-content").empty();
         if(json.tasks.length == 0) return;       //タスク数が0だったら描画しない
         TaskMgr.tasks = json.tasks;
-        let tab_num = 0;
-        for(const tab in json.tasks){
-            $('.tab-content').append(`<div id="tab${tab_num}" class="tab-pane active">`);
-            for(const task in tab){
-                $('.tab-pane').append($('<div class="card mb-3" style="width: 20rem;">').append(`<div class="card-header text-white bg-success">${task.title}</div>`, 
-                                        `<div class="card-body bg-light"><p class="card-text">${task.description}</p></div>`));
+        //let tab_num = 0;
+        const active_tab_id = Number($('.nav-tabs .active').attr("href").slice(4));
+        for(let tab_id of Object.keys(TaskMgr.tabs)){
+            //activeなタブのコンテンツだけactiveにする
+            if(tab_id == active_tab_id){
+                $('.tab-content').append(`<div id="tab${tab_id}" class="tab-pane active">`);
             }
-            tab_num++;
-        }
+            else{
+                $('.tab-content').append(`<div id="tab${tab_id}" class="tab-pane">`);
+            }
+            if(tab_id in json.tasks){
+                for(let task_id of Object.keys(json.tasks[tab_id])){
+                    const task = json.tasks[tab_id][task_id];
+                    $('.tab-pane:last').append($('<div class="card mb-3" style="width: 20rem;">').append(`<div class="card-header text-white bg-success">${task.title}</div>`, 
+                                            `<div class="card-body bg-light"><p class="card-text">${task.description}</p></div>`));
+                };
+            }
+            //tab_num++;
+        };
+        // for(var tab in json.tasks){
+        //     $('.tab-content').append(`<div id="tab${tab_num}" class="tab-pane active">`);
+        //     for(var task in tab){
+        //         $('.tab-pane').append($('<div class="card mb-3" style="width: 20rem;">').append(`<div class="card-header text-white bg-success">${task.title}</div>`, 
+        //                                 `<div class="card-body bg-light"><p class="card-text">${task.description}</p></div>`));
+        //     }
+        //     tab_num++;
+        // }
     }
     else{
         return 'error';
@@ -157,14 +185,14 @@ $(() => {
     $('#remove_tab').click(async () => {
        const ret = await removeTab($(".nav-tabs .active").text());
        if(ret == true) displayTab();
+       $(".nav-tabs:first").addClass("active");
     })
 })
 
 //タスクの新規登録
 $(() => {
     $('#add_task').click(async () => {
-        const pos = Number($('.nav-tabs .active').attr("href").slice(4));
-        const id = Number(TaskMgr.tabs[pos].id);
+        const id = Number($('.nav-tabs .active').attr("href").slice(4));
         var taskTitle = window.prompt("title", "new task");
         if (taskTitle == null) {
             alert("no inputs");
