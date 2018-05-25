@@ -8,8 +8,8 @@ error_reporting(E_ALL);
 function getTask(){
     $result = array('isSuccess' => false, 'tasks' => []);
 
-    if(isset($_GET['user_id'])){
-        $user_id = sanitizeString($_GET['user_id']);
+    if(isset($_POST['user_id'])){
+        $user_id = sanitizeString($_POST['user_id']);
         $queryResponse = queryMysql("SELECT * FROM tasks WHERE user_id = $user_id");
         $size = mysqli_num_rows($queryResponse);
         if($size >= 0){

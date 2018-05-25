@@ -77,13 +77,13 @@ const displayTask = async () => {
     const json = await resp.json();
     if (json.isSuccess == true) {
         //alert(json.size);
-        $(".nav-tabs").empty();
+        $(".tab-content").empty();
         if(json.tasks.length == 0) return;       //タスク数が0だったら描画しない
         TaskMgr.tasks = json.tasks;
         let tab_num = 0;
-        for(const tab of json.tasks){
-            $('.tab-content').append(`<div id="tab${i}" class="tab-pane active">`);
-            for(const task of tab){
+        for(const tab in json.tasks){
+            $('.tab-content').append(`<div id="tab${tab_num}" class="tab-pane active">`);
+            for(const task in tab){
                 $('.tab-pane').append($('<div class="card mb-3" style="width: 20rem;">').append(`<div class="card-header text-white bg-success">${task.title}</div>`, 
                                         `<div class="card-body bg-light"><p class="card-text">${task.description}</p></div>`));
             }
@@ -136,7 +136,7 @@ const addTask = async (title, description, tab_id) => {
 document.addEventListener("DOMContentLoaded", async () => {
     await getSession();
     await displayTab();
-    
+    await displayTask();
 });
 
 //タスクテーマの新規登録
@@ -177,5 +177,6 @@ $(() => {
         }
         const ret = await addTask(taskTitle, taskDescript, id);
         //if(ret == true) ;
+        displayTask();
     })
 })
