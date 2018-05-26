@@ -85,10 +85,10 @@ const displayTask = async () => {
         for(let tab_id of Object.keys(TaskMgr.tabs)){
             //activeなタブのコンテンツだけactiveにする
             if(tab_id == active_tab_id){
-                $('.tab-content').append(`<div id="tab${tab_id}" class="tab-pane active">`);
+                $('.tab-content').append(`<div id="tab${tab_id}" class="col-md-4 offset-md-4 tab-pane active">`);
             }
             else{
-                $('.tab-content').append(`<div id="tab${tab_id}" class="tab-pane">`);
+                $('.tab-content').append(`<div id="tab${tab_id}" class="col-md-4 offset-md-4 tab-pane">`);
             }
             if(tab_id in json.tasks){
                 for(let task_id of Object.keys(json.tasks[tab_id])){
