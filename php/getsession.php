@@ -7,11 +7,11 @@ error_reporting(E_ALL);
 
 
 function getSession(){
-    $result = array('id' => null, 'isSuccess' => false, 'sessionId' => null);
+    $result = array('id' => null, 'is_succeeded' => false, 'sessionId' => null);
     $result['sessionId'] = session_id();
     if(isset($_SESSION['id'])){
         $result['id'] =  $_SESSION['id'];
-        $result['isSuccess'] = true;
+        $result['is_succeeded'] = true;
     }
     return json_encode($result);
 }

@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 
 function addTask(){
     global $dblink;
-    $result = array('isSuccess' => false, 'id' => null);
+    $result = array('is_succeeded' => false, 'id' => null);
 
     if(isset($_POST['title']) AND isset($_POST['description']) AND isset($_POST['tab_id']) AND isset($_POST['user_id'])){
         //入力値のサニタイズ
@@ -20,12 +20,12 @@ function addTask(){
     
         $queryResult = queryMysql("INSERT INTO tasks(title, description, user_id, tab_id) VALUES('$title', '$description', $user_id, $tab_id)");
         if($queryResult == true){
-            $result['isSuccess'] = true;
+            $result['is_succeeded'] = true;
             $result['id'] = mysqli_insert_id($dblink);
         }
     }
     else{
-        $result['isSuccess'] = "unset";
+        $result['is_succeeded'] = "unset";
     }
 
     return json_encode($result);

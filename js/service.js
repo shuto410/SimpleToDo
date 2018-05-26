@@ -11,7 +11,7 @@ const getSession = async () => {
         credentials: "same-origin"
     });
     const json = await resp.json();
-    if (json.isSuccess == true) {
+    if (json.is_succeeded == true) {
         console.log("get session success");
         TaskMgr.user_id = json.id;
         const name = await fetchUserName(json.id);
@@ -31,7 +31,7 @@ const fetchUserName = async (id) => {
         })
     })
     const json = await resp.json();
-    if (json.isSuccess == true) {
+    if (json.is_succeeded == true) {
         return json.name;
     }
     else{
@@ -49,7 +49,7 @@ const displayTab = async () => {
         })
     }); 
     const json = await resp.json();
-    if (json.isSuccess == true) {
+    if (json.is_succeeded == true) {
         //alert(json.size);
         $(".nav-tabs").empty();
         if(json.tabs.length == 0) return;       //タブ数が0だったら描画しない
@@ -85,7 +85,7 @@ const displayTask = async () => {
         })
     }); 
     const json = await resp.json();
-    if (json.isSuccess == true) {
+    if (json.is_succeeded == true) {
         //alert(json.size);
         $(".tab-content").empty();
         if(json.tasks.length == 0) return;       //タスク数が0だったら描画しない
@@ -133,7 +133,7 @@ const removeTab = async (tab_name) => {
         })
     }); 
     const json = await resp.json();
-    if (json.isSuccess == true) {
+    if (json.is_succeeded == true) {
         return true;
     }
     else{
@@ -151,7 +151,7 @@ const addTask = async (title, description, tab_id) => {
         })
     });
     const json = await resp.text();   
-    if(json.isSuccess == true){
+    if(json.is_succeeded == true){
         return true;
     }
     else{

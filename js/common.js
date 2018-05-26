@@ -16,7 +16,7 @@ const startSession = async (id) => {
     })
     const json = await resp.json();
     alert(json.sessionId);
-    if(json.isSuccess == true){
+    if(json.is_succeeded == true){
         console.log("set session success");
     }
     else{
@@ -37,7 +37,7 @@ const addTaskTab = async (name, id) => {
         })
     })
     const json = await resp.json();
-    if(json.isSuccess == true){
+    if(json.is_succeeded == true){
         console.log("success");
         return json.id;
     } 

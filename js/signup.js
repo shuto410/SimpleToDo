@@ -90,7 +90,7 @@ $(() => {
             })
         })
         const json = await resp.json();
-        if (json.isSuccess == true) {
+        if (json.is_succeeded == true) {
             await addTaskTab('ToDo', json.id);
             await addTaskTab('Shopping', json.id);
             startSession(json.id);
