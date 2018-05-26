@@ -176,7 +176,8 @@ $(() => {
             return;
         }
         await addTaskTab(tabName, TaskMgr.user_id);
-        displayTab();
+        await displayTab();
+        displayTask();
     })
 })
 
@@ -185,8 +186,8 @@ $(() => {
     $('#remove_tab').click(async () => {
        const result = await removeTab($(".nav-tabs .active").text());
        if(result == true) {
-           displayTab();
-           displayTask();
+           await displayTab();
+           await displayTask();
        }
        $(".nav-tabs:first").addClass("active");
     })
@@ -195,7 +196,7 @@ $(() => {
 //タスクの新規登録
 $(() => {
     $('#add_task').click(async () => {
-        const id = Number($('.nav-tabs .active').attr("href").slice(4));
+        const tab_id = Number($('.nav-tabs .active').attr("href").slice(4));
         var taskTitle = window.prompt("title", "new task");
         if (taskTitle == null) {
             alert("no inputs");
@@ -206,7 +207,7 @@ $(() => {
             alert("no inputs");
             return;
         }
-        const ret = await addTask(taskTitle, taskDescript, id);
+        const ret = await addTask(taskTitle, taskDescript, tab_id);
         //if(ret == true) ;
         displayTask();
     })
