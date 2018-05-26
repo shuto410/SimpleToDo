@@ -5,7 +5,7 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
 //引数のユーザIDのタブ名を配列で取得する
-function getTask(){
+function fetchTask(){
     $result = array('isSuccess' => false, 'tasks' => []);
 
     if(isset($_POST['user_id'])){
@@ -29,6 +29,6 @@ function getTask(){
     return json_encode($result, JSON_PRETTY_PRINT);
 }
 
-echo getTask();
+echo fetchTask();
 
 ?>

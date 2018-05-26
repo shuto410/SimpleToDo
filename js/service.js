@@ -14,7 +14,7 @@ const getSession = async () => {
     if (json.isSuccess == true) {
         console.log("get session success");
         TaskMgr.user_id = json.id;
-        const name = await getUserName(json.id);
+        const name = await fetchUserName(json.id);
         $('#userid').text(`${name}さんがログインしています`);
     } else {
         console.log("get session failed" + json.sessionId);
@@ -22,8 +22,8 @@ const getSession = async () => {
 }
 
 //ログインidよりユーザ名の取得
-const getUserName = async (id) => {
-    const resp = await fetch("php/getUserName.php", {
+const fetchUserName = async (id) => {
+    const resp = await fetch("php/fetchUserName.php", {
         method: 'POST',
         body: `id=${id}`,
         headers: new Headers({
@@ -41,7 +41,7 @@ const getUserName = async (id) => {
 
 //タブ表示
 const displayTab = async () => {
-    const resp = await fetch("php/getTab.php", {
+    const resp = await fetch("php/fetchTab.php", {
         method: 'POST',
         body: `user_id=${TaskMgr.user_id}`,
         headers: new Headers({
@@ -77,7 +77,7 @@ const displayTab = async () => {
 
 //タスク表示
 const displayTask = async () => {
-    const resp = await fetch("php/getTask.php", {
+    const resp = await fetch("php/fetchTask.php", {
         method: 'POST',
         body: `user_id=${TaskMgr.user_id}`,
         headers: new Headers({
@@ -183,8 +183,11 @@ $(() => {
 //タスクタブの削除
 $(() => {
     $('#remove_tab').click(async () => {
-       const ret = await removeTab($(".nav-tabs .active").text());
-       if(ret == true) displayTab();
+       const result = await removeTab($(".nav-tabs .active").text());
+       if(result == true) {
+           displayTab();
+           displayTask();
+       }
        $(".nav-tabs:first").addClass("active");
     })
 })

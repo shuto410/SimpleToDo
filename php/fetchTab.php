@@ -5,7 +5,7 @@ include_once 'functions.php';
 //error_reporting(E_ALL);
 
 //引数のユーザIDのタブ名を配列で取得する
-function getTab(){
+function fetchTab(){
     $result = array('isSuccess' => false, 'tabs' => array());
 
     if(isset($_POST['user_id'])){
@@ -24,6 +24,6 @@ function getTab(){
     return json_encode($result);
 }
 
-echo getTab();
+echo fetchTab();
 
 ?>

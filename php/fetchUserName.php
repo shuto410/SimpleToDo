@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 include_once 'functions.php';
 
 
-function getUserName(){
+function fetchUserName(){
     $result = array('isSuccess' => false, 'name' => "");
     if(isset($_POST['id'])){
         $id = $_POST['id'];
@@ -17,6 +17,6 @@ function getUserName(){
     }
 }
 
-echo getUserName();
+echo fetchUserName();
 
 ?>
