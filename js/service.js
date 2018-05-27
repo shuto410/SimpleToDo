@@ -1,3 +1,12 @@
+/***********************
+ * tabs 
+ *      dict[ tab id (num) : tab name (string) ]
+ * tasks
+ *      dict[ tab id (num) : array[ title , description, task id ] ]
+ * 
+ * 
+************************/
+
 let TaskMgr = {
     user_id : null,
     tabs : {},
@@ -93,6 +102,13 @@ const displayTask = async () => {
     }
 }
 
+//タスク追加ボタン表示
+const displayAddTaskButton = async () => {
+    for(let tab_id of Object.keys(TaskMgr.tabs)){
+        $(`#${tab_id} > .card-body`).append('<button type="button" class="btn btn-sm bg-light border-info" id="add_task">add</button>');
+    }
+}
+
 //タブ削除
 const removeTab = async (tab_name) => {
     const resp = await fetch("php/removeTab.php", {
@@ -135,6 +151,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     await getSession();
     await displayTab();
     await displayTask();
+    await displayAddTaskButton();
 });
 
 //タスクテーマの新規登録
@@ -147,7 +164,8 @@ $(() => {
         }
         await addTaskTab(tabName, TaskMgr.user_id);
         await displayTab();
-        displayTask();
+        await displayTask();
+        await displayAddTaskButton();
     })
 })
 
@@ -158,6 +176,7 @@ $(() => {
        if(result == true) {
            await displayTab();
            await displayTask();
+           await displayAddTaskButton();
        }
        $(".nav-tabs:first").addClass("active");
     })
