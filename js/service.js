@@ -50,16 +50,14 @@ const displayTab = async () => {
     }); 
     const json = await resp.json();
     if (json.is_succeeded == true) {
-        $(".nav-tabs").empty();
+        $("#task_content").empty();
         if(json.tabs.length == 0) return;       //タブ数が0だったら描画しない
         TaskMgr.tabs = json.tabs;
         for(let id of Object.keys(json.tabs)){
-            if(id == Object.keys(json.tabs)[0]){
-                $('.nav-tabs').append($('<li class="nav-item">').append(`<a href="#tab${id}" class="nav-link active" data-toggle="tab">${json.tabs[id]}</a>`));
-            }
-            else{
-                $('.nav-tabs').append($('<li class="nav-item">').append(`<a href="#tab${id}" class="nav-link" data-toggle="tab">${json.tabs[id]}</a>`));
-            }
+            $('#task_content')
+            .append($(`<div class="card col-md-3 mr-3 border-dark" id="${id}">`)
+            .append($('<div class="card-body pl-0 pr-0 pt-2 pb-2">')
+            .append(  `    <h4 class="card-title pb-0">${json.tabs[id]}</h4>`)))
         }
     }
     else{
@@ -78,23 +76,14 @@ const displayTask = async () => {
     }); 
     const json = await resp.json();
     if (json.is_succeeded == true) {
-        $(".tab-content").empty();
         if(json.tasks.length == 0) return;       //タスク数が0だったら描画しない
         TaskMgr.tasks = json.tasks;
-        const active_tab_id = Number($('.nav-tabs .active').attr("href").slice(4));
         for(let tab_id of Object.keys(TaskMgr.tabs)){
-            //activeなタブのコンテンツだけactiveにする
-            if(tab_id == active_tab_id){
-                $('.tab-content').append(`<div id="tab${tab_id}" class="col-md-4 offset-md-4 tab-pane active">`);
-            }
-            else{
-                $('.tab-content').append(`<div id="tab${tab_id}" class="col-md-4 offset-md-4 tab-pane">`);
-            }
             if(tab_id in json.tasks){
                 for(let task_id of Object.keys(json.tasks[tab_id])){
                     const task = json.tasks[tab_id][task_id];
-                    $('.tab-pane:last').append($('<div class="card mb-3" style="width: 20rem;">').append(`<div class="card-header text-white bg-success">${task.title}</div>`, 
-                                            `<div class="card-body bg-light"><p class="card-text">${task.description}</p></div>`));
+                    $(`#${tab_id} > .card-body`).append($('<div class="card mb-3">').append(`<div class="card-header text-black bg-light">${task.title}</div>`, 
+                                            `<div class="card-body bg-white"><p class="card-text">${task.description}</p></div>`));
                 };
             }
         };
@@ -191,5 +180,12 @@ $(() => {
         const ret = await addTask(taskTitle, taskDescript, tab_id);
         //if(ret == true) ;
         displayTask();
+    })
+})
+
+
+$(() => {
+    $('#tab_remove').click(async () => {
+    
     })
 })

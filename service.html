@@ -18,7 +18,7 @@
 
     <body class="text-center">
         <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-            <a class="navbar-brand" href="#">TaskManager</a>
+            <a class="navbar-brand" href="#">ToDo</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault"
                 aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -57,34 +57,15 @@
 
         <h1>service</h1>
         <div id="userid"></div>
-        <button type="button" class="btn btn-lg btn-primary" id="add_task_tab">new task tab</button>
-        <button type="button" class="btn btn-lg btn-primary" id="remove_tab">remove tab</button>
-        <button type="button" class="btn btn-lg btn-primary" id="add_task">add task </button>
+        <button type="button" class="btn btn-lg bg-dark text-white" id="add_task_tab">new task tab</button>
+        <button type="button" class="btn btn-lg bg-dark text-white" id="remove_tab">remove tab</button>
+        <button type="button" class="btn btn-lg bg-dark text-white" id="add_task">add task </button>
 
         <div class="container">
             <div class="p-3">
-                <div class="row">
-                    <!-- タブボタン部分 -->
-                    <ul class="nav nav-tabs"></ul>
+                <!-- タスク表示部分 -->
+                <div class="row" id="task_content">
                 </div>
-                <div class="row">
-                    <!--タブのコンテンツ部分-->
-                    <div class="tab-content mt-3 ">
-                        <div id="tab0" class="tab-pane active">
-                            <div class="card mb-3" style="width: 20rem;">
-                                <div class="card-header text-white bg-success form-check">
-                                    <input class="form-check-input" type="checkbox">
-                                    <label class="form-check-label"></label>
-                                    title
-                                </div>
-                                <div class="card-body bg-light">
-                                    <p class="card-text">description</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </div>
     </body>
