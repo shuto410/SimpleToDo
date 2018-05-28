@@ -85,14 +85,15 @@ const displayTask = async () => {
     }); 
     const json = await resp.json();
     if (json.is_succeeded == true) {
+        $(".card-title").empty();
         if(json.tasks.length == 0) return;       //タスク数が0だったら描画しない
         TaskMgr.tasks = json.tasks;
         for(let tab_id of Object.keys(TaskMgr.tabs)){
             if(tab_id in json.tasks){
                 for(let task_id of Object.keys(json.tasks[tab_id])){
                     const task = json.tasks[tab_id][task_id];
-                    $(`#${tab_id} > .card-body`).append($('<div class="card mb-3">').append(`<div class="card-header text-black bg-light">${task.title}</div>`, 
-                                            `<div class="card-body bg-white"><p class="card-text">${task.description}</p></div>`));
+                    $(`#${tab_id} > .card-body`).append($('<div class="card mb-3">').append(`<div class="card-header text-black bg-light pt-2 pb-2">${task.title}</div>`, 
+                                            `<div class="card-body bg-white pt-2 pb-2"><p class="card-text">${task.description}</p></div>`));
                 };
             }
         };
@@ -105,9 +106,35 @@ const displayTask = async () => {
 //タスク追加ボタン表示
 const displayAddTaskButton = async () => {
     for(let tab_id of Object.keys(TaskMgr.tabs)){
-        $(`#${tab_id} > .card-body`).append('<button type="button" class="btn btn-sm bg-light border-info" id="add_task">add</button>');
+        $(`#${tab_id} > .card-body`).append(`<button type="button" class="btn btn-sm bg-light border-info add_task" id="add_task_${tab_id}">add</button>`);
     }
+    //ボタンクリック時イベント登録
+    $('.add_task').on("click", async event => {
+        const attr_id = $(event.currentTarget).attr("id");
+        const tab_id = Number(attr_id.slice(9));
+        var taskTitle = window.prompt("title", "new task");
+        if (taskTitle == null) {
+            alert("no inputs");
+            return;
+        }
+        var taskDescript = window.prompt("Descript", "about new task");
+        if (taskDescript == null) {
+            alert("no inputs");
+            return;
+        }
+        const ret = await addTask(taskTitle, taskDescript, tab_id);
+        //if(ret == true) ;
+        await displayAll();
+    })
 }
+
+//まとめて描画
+const displayAll = async () => {
+    await displayTab();
+    await displayTask();
+    await displayAddTaskButton();
+}
+
 
 //タブ削除
 const removeTab = async (tab_name) => {
@@ -149,9 +176,7 @@ const addTask = async (title, description, tab_id) => {
 //登録タスクの取得
 document.addEventListener("DOMContentLoaded", async () => {
     await getSession();
-    await displayTab();
-    await displayTask();
-    await displayAddTaskButton();
+    await displayAll();
 });
 
 //タスクテーマの新規登録
@@ -163,9 +188,7 @@ $(() => {
             return;
         }
         await addTaskTab(tabName, TaskMgr.user_id);
-        await displayTab();
-        await displayTask();
-        await displayAddTaskButton();
+        await displayAll();
     })
 })
 
@@ -174,18 +197,19 @@ $(() => {
     $('#remove_tab').click(async () => {
        const result = await removeTab($(".nav-tabs .active").text());
        if(result == true) {
-           await displayTab();
-           await displayTask();
-           await displayAddTaskButton();
+           await displayAll();
        }
        $(".nav-tabs:first").addClass("active");
     })
 })
 
+
+//const setAddTaskEvent = 
+
 //タスクの新規登録
 $(() => {
-    $('#add_task').click(async () => {
-        const tab_id = Number($('.nav-tabs .active').attr("href").slice(4));
+    $('.add_task').on("click", async () => {
+        const tab_id = Number($(this).attr("id").slice(9));
         var taskTitle = window.prompt("title", "new task");
         if (taskTitle == null) {
             alert("no inputs");
@@ -198,6 +222,7 @@ $(() => {
         }
         const ret = await addTask(taskTitle, taskDescript, tab_id);
         //if(ret == true) ;
+        await displayTab();
         displayTask();
     })
 })
