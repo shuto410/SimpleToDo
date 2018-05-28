@@ -10,14 +10,14 @@
 
 
     <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap/custom-css-bootstrap-magic-2018-05-28.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="css/service.css" rel="stylesheet">
     <title>service</title>
 
-    <body class="text-center">
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <body class="text-center bg-primary">
+        <nav class="navbar navbar-expand-md navbar-dark bg-warning fixed-top">
             <a class="navbar-brand" href="#">ToDo</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault"
                 aria-expanded="false" aria-label="Toggle navigation">
@@ -57,15 +57,14 @@
 
         <h1>service</h1>
         <div id="userid"></div>
-        <button type="button" class="btn btn-lg bg-dark text-white" id="add_task_tab">new task tab</button>
-        <button type="button" class="btn btn-lg bg-dark text-white" id="remove_tab">remove tab</button>
-        <button type="button" class="btn btn-lg bg-dark text-white add_task" id="add_task">add task </button>
+        <div>
+            <button type="button" class="btn btn-lg bg-dark text-white" id="add_task_tab">new task tab</button>
+            <button type="button" class="btn btn-lg bg-dark text-white" id="remove_tab">remove tab</button>
+        </div>
 
-        <div class="container">
-            <div class="p-3">
-                <!-- タスク表示部分 -->
-                <div class="row" id="task_content">
-                </div>
+        <div class="p-3">
+            <!-- タスク表示部分 -->
+            <div class="container-fluid" id="task_content">
             </div>
         </div>
     </body>

@@ -64,7 +64,7 @@ const displayTab = async () => {
         TaskMgr.tabs = json.tabs;
         for(let id of Object.keys(json.tabs)){
             $('#task_content')
-            .append($(`<div class="card col-md-3 mr-3 border-dark" id="${id}">`)
+            .append($(`<div class="card col-lg-2 col-md-3 col-sm-4 col-10 mb-3 mr-3 mt-3 bg-secondary" style="display: inline-block; vertical-align: top;" id="${id}">`)
             .append($('<div class="card-body pl-0 pr-0 pt-2 pb-2">')
             .append(  `    <h4 class="card-title pb-0">${json.tabs[id]}</h4>`)))
         }
@@ -85,15 +85,15 @@ const displayTask = async () => {
     }); 
     const json = await resp.json();
     if (json.is_succeeded == true) {
-        $(".card-title").empty();
+        //$(".card-title").empty();
         if(json.tasks.length == 0) return;       //タスク数が0だったら描画しない
         TaskMgr.tasks = json.tasks;
         for(let tab_id of Object.keys(TaskMgr.tabs)){
             if(tab_id in json.tasks){
                 for(let task_id of Object.keys(json.tasks[tab_id])){
                     const task = json.tasks[tab_id][task_id];
-                    $(`#${tab_id} > .card-body`).append($('<div class="card mb-3">').append(`<div class="card-header text-black bg-light pt-2 pb-2">${task.title}</div>`, 
-                                            `<div class="card-body bg-white pt-2 pb-2"><p class="card-text">${task.description}</p></div>`));
+                    $(`#${tab_id} > .card-body`).append($('<div class="card mb-3">').append(`<h6 class="card-header text-dark bg-primary pt-2 pb-2">${task.title}</h6>`, 
+                                            `<div class="card-body bg-primary pt-2 pb-2"><p class="card-text">${task.description}</p></div>`));
                 };
             }
         };
