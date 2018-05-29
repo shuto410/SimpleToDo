@@ -62,12 +62,31 @@ const displayTab = async () => {
         $("#task_content").empty();
         if(json.tabs.length == 0) return;       //タブ数が0だったら描画しない
         TaskMgr.tabs = json.tabs;
-        for(let id of Object.keys(json.tabs)){
+        for(let tab_id of Object.keys(json.tabs)){
             $('#task_content')
-            .append($(`<div class="card col-lg-2 col-md-3 col-sm-4 col-10 mb-3 mr-3 mt-3 bg-secondary" style="display: inline-block; vertical-align: top;" id="${id}">`)
-            .append($('<div class="card-body pl-0 pr-0 pt-2 pb-2">')
-            .append(  `    <h4 class="card-title pb-0">${json.tabs[id]}</h4>`)))
+            .append($( `<div class="card col-lg-2 col-md-3 col-sm-4 col-10 mb-3 mr-3 mt-3 bg-secondary" style="display: inline-block; vertical-align: top;" id="${tab_id}">`)
+            .append($( '<div class="card-body pl-0 pr-0 pt-2 pb-2">')
+            .append(   `    <h4 class="card-title pb-0">
+                                ${json.tabs[tab_id]}
+                                <span class="dropdown">
+                                    <!-- 切替ボタンの設定 -->
+                                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+                                    <!-- ドロップメニューの設定 -->
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                        <a class="dropdown-item remove_tab" href="#" id="${tab_id}">削除(未実装)</a>
+                                        <a class="dropdown-item" href="#">編集(未実装)</a>
+                                        <a class="dropdown-item" href="#">something</a>
+                                    </div><!-- /.dropdown-menu -->
+                                </span><!-- /.dropdown -->
+                            </h4>`)))
         }
+        $('.remove_tab').on("click", async event => {
+            const tab_id = $(event.currentTarget).attr("id");
+            const result = await removeTab(tab_id);
+            if(result == true) {
+                await displayAll();
+            }
+         })
     }
     else{
         return 'error';
@@ -137,10 +156,10 @@ const displayAll = async () => {
 
 
 //タブ削除
-const removeTab = async (tab_name) => {
+const removeTab = async (tab_id) => {
     const resp = await fetch("php/removeTab.php", {
         method: 'POST',
-        body: `user_id=${TaskMgr.user_id}&name=${tab_name}`,
+        body: `user_id=${TaskMgr.user_id}&tab_id=${tab_id}`,
         headers: new Headers({
             'Content-type': 'application/x-www-form-urlencoded'
         })
@@ -194,12 +213,11 @@ $(() => {
 
 //タスクタブの削除
 $(() => {
-    $('#remove_tab').click(async () => {
-       const result = await removeTab($(".nav-tabs .active").text());
+    $('.remove_tab').click(async event => {
+       const result = await removeTab($(event.currentTarget).attr("id"));
        if(result == true) {
            await displayAll();
        }
-       $(".nav-tabs:first").addClass("active");
     })
 })
 
