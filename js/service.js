@@ -111,8 +111,17 @@ const displayTask = async () => {
             if(tab_id in json.tasks){
                 for(let task_id of Object.keys(json.tasks[tab_id])){
                     const task = json.tasks[tab_id][task_id];
-                    $(`#${tab_id} > .card-body`).append($('<div class="card mb-3">').append(`<h6 class="card-header text-dark bg-primary pt-2 pb-2">${task.title}</h6>`, 
-                                            `<div class="card-body bg-primary pt-2 pb-2"><p class="card-text">${task.description}</p></div>`));
+                    $(`#${tab_id} > .card-body`)
+                    .append($(' <div class="card mb-3">')
+                    .append(`       <h6 class="card-header text-dark bg-primary pt-2 pb-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                            <label class="form-check-label" for="defaultCheck1">
+                                                ${task.title}
+                                            </label>
+                                        </div>
+                                    </h6>`, 
+                            `       <div class="card-body bg-primary pt-2 pb-2"><p class="card-text">${task.description}</p></div>`));
                 };
             }
         };
