@@ -66,14 +66,14 @@ const displayTab = async () => {
             $('#task_content')
             .append($( `<div class="card col-lg-2 col-md-3 col-sm-4 col-10 mb-3 mr-3 mt-3 bg-secondary" style="display: inline-block; vertical-align: top;" id="${tab_id}">`)
             .append($( '<div class="card-body pl-0 pr-0 pt-2 pb-2">')
-            .append(   `    <h4 class="card-title pb-0">
+            .append(   `    <h4 class="card-title pb-0 text-center">
                                 ${json.tabs[tab_id]}
                                 <span class="dropdown">
                                     <!-- 切替ボタンの設定 -->
                                     <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
                                     <!-- ドロップメニューの設定 -->
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                        <a class="dropdown-item remove_tab" href="#" id="${tab_id}">削除(未実装)</a>
+                                        <a class="dropdown-item remove_tab" href="#" id="${tab_id}">削除</a>
                                         <a class="dropdown-item" href="#">編集(未実装)</a>
                                         <a class="dropdown-item" href="#">something</a>
                                     </div><!-- /.dropdown-menu -->
@@ -113,11 +113,11 @@ const displayTask = async () => {
                     const task = json.tasks[tab_id][task_id];
                     $(`#${tab_id} > .card-body`)
                     .append($(' <div class="card mb-3">')
-                    .append(`       <h6 class="card-header text-dark bg-primary pt-2 pb-2">
+                    .append(`       <h6 class="card-header text-dark bg-primary pt-2 pb-2 pl-4 text-left">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                            <label class="form-check-label" for="defaultCheck1">
-                                                ${task.title}
+                                            <input class="form-check-input" type="checkbox" value="${task_id}">
+                                            <label class="form-check-label text-center" for="task_check">
+                                            ${task.title}
                                             </label>
                                         </div>
                                     </h6>`, 
@@ -125,6 +125,15 @@ const displayTask = async () => {
                 };
             }
         };
+        //タスクチェックボタンイベント登録
+        $('.form-check-input').click(async event => {
+            if($(event.currentTarget).prop("checked")){
+                alert("checked");
+            }
+            else{
+                alert("non checked");
+            }
+        })
     }
     else{
         return 'error';
@@ -220,43 +229,6 @@ $(() => {
     })
 })
 
-//タスクタブの削除
-$(() => {
-    $('.remove_tab').click(async event => {
-       const result = await removeTab($(event.currentTarget).attr("id"));
-       if(result == true) {
-           await displayAll();
-       }
-    })
-})
 
 
-//const setAddTaskEvent = 
 
-//タスクの新規登録
-$(() => {
-    $('.add_task').on("click", async () => {
-        const tab_id = Number($(this).attr("id").slice(9));
-        var taskTitle = window.prompt("title", "new task");
-        if (taskTitle == null) {
-            alert("no inputs");
-            return;
-        }
-        var taskDescript = window.prompt("Descript", "about new task");
-        if (taskDescript == null) {
-            alert("no inputs");
-            return;
-        }
-        const ret = await addTask(taskTitle, taskDescript, tab_id);
-        //if(ret == true) ;
-        await displayTab();
-        displayTask();
-    })
-})
-
-
-$(() => {
-    $('#tab_remove').click(async () => {
-    
-    })
-})
