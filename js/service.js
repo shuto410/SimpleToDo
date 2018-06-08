@@ -74,7 +74,7 @@ const displayTab = async () => {
                                     <!-- ドロップメニューの設定 -->
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                         <a class="dropdown-item remove_tab" href="#" id="${tab_id}">削除</a>
-                                        <a class="dropdown-item" href="#">編集(未実装)</a>
+                                        <a class="dropdown-item complete_task" href="#" id="${tab_id}">タスク完了</a>
                                         <a class="dropdown-item" href="#">something</a>
                                     </div><!-- /.dropdown-menu -->
                                 </span><!-- /.dropdown -->
@@ -87,6 +87,15 @@ const displayTab = async () => {
                 await displayAll();
             }
          })
+        $('.complete_task').on("click", async event => {
+            const tab_id = $(event.currentTarget).attr("id");
+            $(`#${tab_id}>.card-body>.card`).each((i, elem) => {
+                if($(elem).prop("checked")){
+                    removeTask($(elem).attr("id"));
+                }
+            })
+            await displayAll();
+        })
     }
     else{
         return 'error';
@@ -112,7 +121,7 @@ const displayTask = async () => {
                 for(let task_id of Object.keys(json.tasks[tab_id])){
                     const task = json.tasks[tab_id][task_id];
                     $(`#${tab_id} > .card-body`)
-                    .append($(' <div class="card mb-3">')
+                    .append($(` <div class="card mb-3" id="${task_id}">`)
                     .append(`       <h6 class="card-header text-dark bg-primary pt-2 pb-2 pl-4 text-left">
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" value="${task_id}">
@@ -128,10 +137,11 @@ const displayTask = async () => {
         //タスクチェックボタンイベント登録
         $('.form-check-input').click(async event => {
             if($(event.currentTarget).prop("checked")){
-                alert("checked");
+                //alert("checked");
+                //訂正線実装予定
             }
             else{
-                alert("non checked");
+                //alert("non checked");
             }
         })
     }
@@ -174,7 +184,7 @@ const displayAll = async () => {
 
 
 //タブ削除
-const removeTab = async (tab_id) => {
+const removeTab = async tab_id => {
     const resp = await fetch("php/removeTab.php", {
         method: 'POST',
         body: `user_id=${TaskMgr.user_id}&tab_id=${tab_id}`,
@@ -202,6 +212,24 @@ const addTask = async (title, description, tab_id) => {
     });
     const json = await resp.text();   
     if(json.is_succeeded == true){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
+//タスク削除
+const removeTask = async task_id => {
+    const resp = await fetch("php/removeTask.php", {
+        method: 'POST',
+        body: `task_id=${task_id}`,
+        headers: new Headers({
+            'Content-type': 'application/x-www-form-urlencoded'
+        })
+    }); 
+    const json = await resp.json();
+    if (json.is_succeeded == true) {
         return true;
     }
     else{
