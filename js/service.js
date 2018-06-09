@@ -89,9 +89,11 @@ const displayTab = async () => {
          })
         $('.complete_task').on("click", async event => {
             const tab_id = $(event.currentTarget).attr("id");
-            $(`#${tab_id}>.card-body>.card`).each((i, elem) => {
-                if($(elem).prop("checked")){
-                    removeTask($(elem).attr("id"));
+            $(`#${tab_id}>.card-body>.card`).each(async (i, elem) => {
+                const isChecked = $(elem).find(".form-check-input")[0]["checked"];
+                if(isChecked){
+                    task_id = $(elem).attr("id");
+                    await removeTask(task_id);
                 }
             })
             await displayAll();
