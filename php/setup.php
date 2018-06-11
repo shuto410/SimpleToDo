@@ -23,6 +23,7 @@ createTable('task_tabs',
 createTable('tasks',
             'title VARCHAR(50),
             description VARCHAR(200),
+            is_checked BOOLEAN,
             user_id INT,
             tab_id INT,
             id INT UNSIGNED NOT NULL AUTO_INCREMENT KEY');

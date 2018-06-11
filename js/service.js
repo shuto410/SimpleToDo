@@ -90,8 +90,8 @@ const displayTab = async () => {
         $('.complete_task').on("click", async event => {
             const tab_id = $(event.currentTarget).attr("id");
             $(`#${tab_id}>.card-body>.card`).each(async (i, elem) => {
-                const isChecked = $(elem).find(".form-check-input")[0]["checked"];
-                if(isChecked){
+                const is_checked = $(elem).find(".form-check-input")[0]["checked"];
+                if(is_checked){
                     task_id = $(elem).attr("id");
                     await removeTask(task_id);
                 }
@@ -120,14 +120,14 @@ const displayTask = async () => {
         TaskMgr.tasks = json.tasks;
         for(let tab_id of Object.keys(TaskMgr.tabs)){
             if(tab_id in json.tasks){
-                for(let task_id of Object.keys(json.tasks[tab_id])){
-                    const task = json.tasks[tab_id][task_id];
+                for(let task_index of Object.keys(json.tasks[tab_id])){
+                    const task = json.tasks[tab_id][task_index];
                     $(`#${tab_id} > .card-body`)
-                    .append($(` <div class="card mb-3" id="${task_id}">`)
+                    .append($(` <div class="card mb-3" id="${task.id}">`)
                     .append(`       <h6 class="card-header text-dark bg-primary pt-2 pb-2 pl-4 text-left">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="${task_id}">
-                                            <label class="form-check-label text-center" for="task_check">
+                                            <input class="form-check-input input-lg" type="checkbox" value="${task.id}" id="task_check_${task.id}">
+                                            <label class="form-check-label text-center" for="task_check_${task.id}">
                                             ${task.title}
                                             </label>
                                         </div>
@@ -136,14 +136,19 @@ const displayTask = async () => {
                 };
             }
         };
-        //タスクチェックボタンイベント登録
-        $('.form-check-input').click(async event => {
-            if($(event.currentTarget).prop("checked")){
+        //タスクチェック時の打消し線とミュート
+        $('.form-check-input').on("click", async event => {
+            const is_checked = $(event.currentTarget).prop("checked");
+            await updateTaskCheckStatus(is_checked);
+            if(is_checked){
                 //alert("checked");
-                //訂正線実装予定
+                $(event.currentTarget).next("label").css("text-decoration", "line-through");
+                $(event.currentTarget).next("label").addClass("text-muted");
             }
             else{
                 //alert("non checked");
+                $(event.currentTarget).next("label").css("text-decoration", "none");
+                $(event.currentTarget).next("label").removeClass("text-muted");
             }
         })
     }
@@ -226,6 +231,24 @@ const removeTask = async task_id => {
     const resp = await fetch("php/removeTask.php", {
         method: 'POST',
         body: `task_id=${task_id}`,
+        headers: new Headers({
+            'Content-type': 'application/x-www-form-urlencoded'
+        })
+    }); 
+    const json = await resp.json();
+    if (json.is_succeeded == true) {
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
+//タスクのチェック状況更新
+const updateTaskCheckStatus = async is_checked => {
+    const resp = await fetch("php/updateTaskCheckStatus.php", {
+        method: 'POST',
+        body: `is_checked=${is_checked}`,
         headers: new Headers({
             'Content-type': 'application/x-www-form-urlencoded'
         })

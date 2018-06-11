@@ -9,7 +9,7 @@ function removeTask(){
     $result = array('is_succeeded' => false);
 
     if(isset($_POST['task_id'])){
-        $task_id = sanitizeString($_POST['tab_id']);
+        $task_id = sanitizeString($_POST['task_id']);
         $queryResponse = queryMysql("DELETE FROM tasks WHERE id = '$task_id'");
         if($queryResponse == true){
             $result['is_succeeded'] = true;
