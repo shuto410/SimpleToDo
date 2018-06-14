@@ -24,7 +24,7 @@ const getSession = async () => {
         console.log("get session success");
         TaskMgr.user_id = json.id;
         const name = await fetchUserName(json.id);
-        $('#userid').text(`${name}さんがログインしています`);
+        $('#user').text(`${name}`);
     } else {
         console.log("get session failed" + json.sessionId);
     }

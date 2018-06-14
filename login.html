@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- jQuery読み込み -->
+    <script src="jquery-3.2.1.min.js"></script>
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="css/signin.css" rel="stylesheet">
+    <script src="js/common.js"></script>
+    <script src="js/login.js"></script>
+
+    <title>enter</title>
+</head>
+
+<body class="text-center">
+   
+    <div class="container">
+        <p class="row" id="alert_col"></p>
+      
+        <form class="row form-signin">
+            <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+            <label for="inputEmail" class="sr-only">Email address</label>
+            <input type="email" name="inputEmail" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+            <label for="inputPassword" class="sr-only">Password</label>
+            <input type="password" name="inputPassword" id="inputPassword" class="form-control" placeholder="Password" required>
+            <div class="checkbox mb-3">
+                <label>
+                    <input type="checkbox" value="remember-me"> Remember me
+                </label>
+            </div>
+            <input type="button" class="mb-3 btn btn-lg btn-primary btn-block" name="submit" id="submit" value="Sign in" />
+
+            <input type="button" class="col-4 offset-4 btn btn-lg btn-success " onClick="location.href='signup.html'" value="Sign up" />
+
+        </form>
+    
+    </div>
+
+</body>
+
+</html>
