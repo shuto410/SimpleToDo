@@ -48,6 +48,18 @@ const fetchUserName = async (id) => {
     }
 }
 
+//チェック済みタスク打ち消し線の更新
+const updateDrawCheckedTask = async (is_checked, elem) => {
+    if(is_checked){
+        $(elem).css("text-decoration", "line-through");
+        $(elem).addClass("text-muted");
+    }
+    else{
+        $(elem).css("text-decoration", "none");
+        $(elem).removeClass("text-muted");
+    }
+}
+
 //タブ表示
 const displayTab = async () => {
     const resp = await fetch("php/fetchTab.php", {
@@ -133,23 +145,26 @@ const displayTask = async () => {
                                         </div>
                                     </h6>`, 
                             `       <div class="card-body bg-primary pt-2 pb-2"><p class="card-text">${task.description}</p></div>`));
+                    const checkbox_elem = $(`#${tab_id}>.card-body>#${task.id} >.card-header>.form-check>.form-check-input`);
+                    const task_title_elem = $(`#${tab_id}>.card-body>#${task.id} >.card-header>.form-check>.form-check-label`);
+                    const task_discription_elem = $(`#${tab_id}>.card-body>#${task.id} >.card-body>.card-text`);
+
+                    const is_checked = task.is_checked == "1";
+                    if(is_checked){
+                        checkbox_elem.prop("checked", true); //チェック情報をDBから反映
+                    }
+                    await updateDrawCheckedTask(is_checked, task_title_elem);
+                    await updateDrawCheckedTask(is_checked, task_discription_elem);
                 };
             }
         };
         //タスクチェック時の打消し線とミュート
         $('.form-check-input').on("click", async event => {
             const is_checked = $(event.currentTarget).prop("checked");
-            await updateTaskCheckStatus(is_checked);
-            if(is_checked){
-                //alert("checked");
-                $(event.currentTarget).next("label").css("text-decoration", "line-through");
-                $(event.currentTarget).next("label").addClass("text-muted");
-            }
-            else{
-                //alert("non checked");
-                $(event.currentTarget).next("label").css("text-decoration", "none");
-                $(event.currentTarget).next("label").removeClass("text-muted");
-            }
+            const task_id = $(event.currentTarget).attr("value");
+            await updateTaskCheckStatus(is_checked, task_id);
+            await updateDrawCheckedTask(is_checked, $(event.currentTarget).next("label"));
+            await updateDrawCheckedTask(is_checked, $(event.currentTarget).parents(`#${task_id}`).find(".card-text"));
         })
     }
     else{
@@ -245,10 +260,10 @@ const removeTask = async task_id => {
 }
 
 //タスクのチェック状況更新
-const updateTaskCheckStatus = async is_checked => {
+const updateTaskCheckStatus = async (is_checked, task_id) => {
     const resp = await fetch("php/updateTaskCheckStatus.php", {
         method: 'POST',
-        body: `is_checked=${is_checked}`,
+        body: `is_checked=${is_checked}&task_id=${task_id}`,
         headers: new Headers({
             'Content-type': 'application/x-www-form-urlencoded'
         })
