@@ -1,6 +1,6 @@
 /* Custom default button */
 .btn-primary {
-  background: #656F8C;
+  background: #35478C;
   color: #fff;
   border: none;
 }
@@ -15,7 +15,7 @@
 .btn-primary.disabled:hover, .btn-primary[disabled]:hover, fieldset[disabled] .btn-primary:hover,
 .btn-primary.disabled:focus, .btn-primary[disabled]:focus, fieldset[disabled] .btn-primary:focus,
 .btn-primary.disabled.focus, .btn-primary[disabled].focus, fieldset[disabled] .btn-primary.focus {
-  background: #413659; 
+  background: #22275C;
   color: #fff; 
   border: none;
 }
@@ -47,7 +47,7 @@ body {
   height: 100%;
   padding-top: 2rem;
   padding-bottom: 2rem;
-  background-color: #F2EFDF;
+  background-color: #ADD5F7;  
 }
 
 body {

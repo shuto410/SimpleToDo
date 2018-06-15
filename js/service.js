@@ -175,7 +175,7 @@ const displayTask = async () => {
 //タスク追加ボタン表示
 const displayAddTaskButton = async () => {
     for(let tab_id of Object.keys(TaskMgr.tabs)){
-        $(`#${tab_id} > .card-body`).append(`<button type="button" class="btn btn-sm bg-light border-info add_task" id="add_task_${tab_id}">add</button>`);
+        $(`#${tab_id} > .card-body`).append(`<button type="button" class="btn btn-sm btn-info border-info add_task" id="add_task_${tab_id}">+ add</button>`);
     }
     //ボタンクリック時イベント登録
     $('.add_task').on("click", async event => {
