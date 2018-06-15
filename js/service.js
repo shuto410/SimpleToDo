@@ -136,7 +136,7 @@ const displayTask = async () => {
                     const task = json.tasks[tab_id][task_index];
                     $(`#${tab_id} > .card-body`)
                     .append($(` <div class="card mb-3" id="${task.id}">`)
-                    .append(`       <h6 class="card-header text-dark bg-primary pt-2 pb-2 pl-4 text-left">
+                    .append(`       <h6 class="card-header text-dark bg-success pt-2 pb-2 pl-4 text-left">
                                         <div class="form-check">
                                             <input class="form-check-input input-lg" type="checkbox" value="${task.id}" id="task_check_${task.id}">
                                             <label class="form-check-label text-center" for="task_check_${task.id}">
@@ -144,7 +144,7 @@ const displayTask = async () => {
                                             </label>
                                         </div>
                                     </h6>`, 
-                            `       <div class="card-body bg-primary pt-2 pb-2"><p class="card-text">${task.description}</p></div>`));
+                            `       <div class="card-body bg-success pt-2 pb-2"><p class="card-text">${task.description}</p></div>`));
                     const checkbox_elem = $(`#${tab_id}>.card-body>#${task.id} >.card-header>.form-check>.form-check-input`);
                     const task_title_elem = $(`#${tab_id}>.card-body>#${task.id} >.card-header>.form-check>.form-check-label`);
                     const task_discription_elem = $(`#${tab_id}>.card-body>#${task.id} >.card-body>.card-text`);

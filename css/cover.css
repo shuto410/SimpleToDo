@@ -12,11 +12,39 @@ a:hover {
 /* Custom default button */
 .btn-secondary,
 .btn-secondary:hover,
-.btn-secondary:focus {
+.btn-secondary:focus,
+.btn-secondary:active {
   color: #333;
-  text-shadow: none; /* Prevent inheritance from `body` */
+  text-shadow: none; 
   background-color: #fff;
   border: .05rem solid #fff;
+}
+
+
+.btn-link {
+  color: #9BBFAB;
+}
+
+
+.btn-info {
+  background: #656F8C;
+  color: #fff;
+  border: none;
+}
+
+.btn-info:hover, .btn-info:focus, 
+.btn-info:active, .btn-info:active:focus, .btn-info:active:hover, .btn-info:active.focus,
+.btn-info.active, .btn-info.active:focus, .btn-info.active:hover, .btn-info.active.focus,
+.open > .dropdown-toggle.btn-info, 
+.open > .dropdown-toggle.btn-info:hover,
+.open > .dropdown-toggle.btn-info:focus, 
+.open > .dropdown-toggle.btn-info.focus,
+.btn-info.disabled:hover, .btn-info[disabled]:hover, fieldset[disabled] .btn-info:hover,
+.btn-info.disabled:focus, .btn-info[disabled]:focus, fieldset[disabled] .btn-info:focus,
+.btn-info.disabled.focus, .btn-info[disabled].focus, fieldset[disabled] .btn-info.focus {
+  background: rgb(73, 84, 119);
+  color: #fff; 
+  border: none;
 }
 
 
@@ -27,7 +55,7 @@ a:hover {
 html,
 body {
   height: 100%;
-  background-color: #333;
+  background-color: #413659;
 }
 
 body {

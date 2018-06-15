@@ -1,0 +1,34 @@
+
+
+
+.color {
+    color: #211426;
+    color: #413659;
+    color: #656F8C;
+    color: rgb(73, 84, 119);
+    color: #9BBFAB;
+    color: rgb(116, 160, 136);
+    color: rgb(89, 136, 110);
+    color: #F2EFDF;
+}
+
+.btn-primary {
+    background: #656F8C;
+    color: #fff;
+    border: none;
+  }
+  
+  .btn-primary:hover, .btn-primary:focus, 
+  .btn-primary:active, .btn-primary:active:focus, .btn-primary:active:hover, .btn-primary:active.focus,
+  .btn-primary.active, .btn-primary.active:focus, .btn-primary.active:hover, .btn-primary.active.focus,
+  .open > .dropdown-toggle.btn-primary, 
+  .open > .dropdown-toggle.btn-primary:hover,
+  .open > .dropdown-toggle.btn-primary:focus, 
+  .open > .dropdown-toggle.btn-primary.focus,
+  .btn-primary.disabled:hover, .btn-primary[disabled]:hover, fieldset[disabled] .btn-primary:hover,
+  .btn-primary.disabled:focus, .btn-primary[disabled]:focus, fieldset[disabled] .btn-primary:focus,
+  .btn-primary.disabled.focus, .btn-primary[disabled].focus, fieldset[disabled] .btn-primary.focus {
+    background: #413659; 
+    color: #fff; 
+    border: none;
+  }
