@@ -2,23 +2,26 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <!-- jQuery読み込み -->
-    <script src="jquery-3.2.1.min.js"></script>
-    <script src="js/common.js"></script>
-    <script src="js/service.js"></script>
-    <script src="js/bootstrap/bootstrap.min.js"></script>
-
-
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="css/service.css" rel="stylesheet">
-    <title>service</title>
+    <!-- jQuery読み込み -->
+    <script src="jquery-3.2.1.min.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/service.js"></script>
+    <script src="js/bootstrap/Popper.js"></script>
+    <script src="js/bootstrap/bootstrap.min.js"></script>
+
+
+    
+   
+    <title>Simple ToDo</title>
 
     <body class="text-center">
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-            <a class="navbar-brand" href="#">TaskManager</a>
+        <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
+            <a class="navbar-brand" href="#">Simple ToDo</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault"
                 aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -31,19 +34,11 @@
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#">Disabled</a>
-                    </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false">Dropdown</a>
-                        <div class="dropdown-menu" aria-labelledby="dropdown01">
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <a class="dropdown-item" href="#">Something else here</a>
+                        <a class="nav-link dropdown-toggle" href="http://example.com" id="user" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false"></a>
+                        <div class="dropdown-menu" aria-labelledby="user">
+                            <a class="dropdown-item" href="./index.html">Logout</a>
                         </div>
                     </li>
                 </ul>
@@ -55,19 +50,17 @@
         </nav>
 
 
-        <h1>service</h1>
-        <div id="userid"></div>
-        <button type="button" class="btn btn-lg btn-primary" id="add_task_tab">new task tab</button>
-        <button type="button" class="btn btn-lg btn-primary" id="remove_tab">remove tab</button>
-        <button type="button" class="btn btn-lg btn-primary" id="add_task">add task </button>
-
-
+        <h1 class="font-weight-bold text-center text-title">Simple ToDo</h1>
+        <div class="text-center">
+        
+        <div>
+            <button type="button" class="btn btn-lg btn-info text-white" id="add_task_tab">+ new tab</button>
+        </div>
+        </div>
         <div class="p-3">
-            <!-- タブボタン部分 -->
-            <ul class="nav nav-tabs"></ul>
-
-            <!--タブのコンテンツ部分-->
-            <div class="tab-content mt-3"></div>
+            <!-- タスク表示部分 -->
+            <div class="container-fluid" id="task_content">
+            </div>
         </div>
     </body>
 </head>

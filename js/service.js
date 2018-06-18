@@ -1,3 +1,12 @@
+/***********************
+ * tabs 
+ *      dict[ tab id (num) : tab name (string) ]
+ * tasks
+ *      dict[ tab id (num) : array[ title , description, task id ] ]
+ * 
+ * 
+************************/
+
 let TaskMgr = {
     user_id : null,
     tabs : {},
@@ -15,7 +24,7 @@ const getSession = async () => {
         console.log("get session success");
         TaskMgr.user_id = json.id;
         const name = await fetchUserName(json.id);
-        $('#userid').text(`${name}さんがログインしています`);
+        $('#user').text(`${name}`);
     } else {
         console.log("get session failed" + json.sessionId);
     }
@@ -39,6 +48,18 @@ const fetchUserName = async (id) => {
     }
 }
 
+//チェック済みタスク打ち消し線の更新
+const updateDrawCheckedTask = async (is_checked, elem) => {
+    if(is_checked){
+        $(elem).css("text-decoration", "line-through");
+        $(elem).addClass("text-muted");
+    }
+    else{
+        $(elem).css("text-decoration", "none");
+        $(elem).removeClass("text-muted");
+    }
+}
+
 //タブ表示
 const displayTab = async () => {
     const resp = await fetch("php/fetchTab.php", {
@@ -50,17 +71,45 @@ const displayTab = async () => {
     }); 
     const json = await resp.json();
     if (json.is_succeeded == true) {
-        $(".nav-tabs").empty();
+        $("#task_content").empty();
         if(json.tabs.length == 0) return;       //タブ数が0だったら描画しない
         TaskMgr.tabs = json.tabs;
-        for(let id of Object.keys(json.tabs)){
-            if(id == Object.keys(json.tabs)[0]){
-                $('.nav-tabs').append($('<li class="nav-item">').append(`<a href="#tab${id}" class="nav-link active" data-toggle="tab">${json.tabs[id]}</a>`));
-            }
-            else{
-                $('.nav-tabs').append($('<li class="nav-item">').append(`<a href="#tab${id}" class="nav-link" data-toggle="tab">${json.tabs[id]}</a>`));
-            }
+        for(let tab_id of Object.keys(json.tabs)){
+            $('#task_content')
+            .append($( `<div class="card col-lg-2 col-md-3 col-sm-4 col-10 mb-3 mr-3 mt-3 bg-secondary" style="display: inline-block; vertical-align: top;" id="${tab_id}">`)
+            .append($( '<div class="card-body pl-0 pr-0 pt-2 pb-2">')
+            .append(   `    <h4 class="card-title pb-0 text-center">
+                                ${json.tabs[tab_id]}
+                                <span class="dropdown">
+                                    <!-- 切替ボタンの設定 -->
+                                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+                                    <!-- ドロップメニューの設定 -->
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                        <a class="dropdown-item remove_tab" href="#" id="${tab_id}">削除</a>
+                                        <a class="dropdown-item complete_task" href="#" id="${tab_id}">タスク完了</a>
+                                        <a class="dropdown-item" href="#">something</a>
+                                    </div><!-- /.dropdown-menu -->
+                                </span><!-- /.dropdown -->
+                            </h4>`)))
         }
+        $('.remove_tab').on("click", async event => {
+            const tab_id = $(event.currentTarget).attr("id");
+            const result = await removeTab(tab_id);
+            if(result == true) {
+                await displayAll();
+            }
+         })
+        $('.complete_task').on("click", async event => {
+            const tab_id = $(event.currentTarget).attr("id");
+            $(`#${tab_id}>.card-body>.card`).each(async (i, elem) => {
+                const is_checked = $(elem).find(".form-check-input")[0]["checked"];
+                if(is_checked){
+                    task_id = $(elem).attr("id");
+                    await removeTask(task_id);
+                }
+            })
+            await displayAll();
+        })
     }
     else{
         return 'error';
@@ -78,37 +127,89 @@ const displayTask = async () => {
     }); 
     const json = await resp.json();
     if (json.is_succeeded == true) {
-        $(".tab-content").empty();
+        //$(".card-title").empty();
         if(json.tasks.length == 0) return;       //タスク数が0だったら描画しない
         TaskMgr.tasks = json.tasks;
-        const active_tab_id = Number($('.nav-tabs .active').attr("href").slice(4));
         for(let tab_id of Object.keys(TaskMgr.tabs)){
-            //activeなタブのコンテンツだけactiveにする
-            if(tab_id == active_tab_id){
-                $('.tab-content').append(`<div id="tab${tab_id}" class="tab-pane active">`);
-            }
-            else{
-                $('.tab-content').append(`<div id="tab${tab_id}" class="tab-pane">`);
-            }
             if(tab_id in json.tasks){
-                for(let task_id of Object.keys(json.tasks[tab_id])){
-                    const task = json.tasks[tab_id][task_id];
-                    $('.tab-pane:last').append($('<div class="card mb-3" style="width: 20rem;">').append(`<div class="card-header text-white bg-success">${task.title}</div>`, 
-                                            `<div class="card-body bg-light"><p class="card-text">${task.description}</p></div>`));
+                for(let task_index of Object.keys(json.tasks[tab_id])){
+                    const task = json.tasks[tab_id][task_index];
+                    $(`#${tab_id} > .card-body`)
+                    .append($(` <div class="card mb-3" id="${task.id}">`)
+                    .append(`       <h6 class="card-header text-dark bg-success pt-2 pb-2 pl-4 text-left">
+                                        <div class="form-check">
+                                            <input class="form-check-input input-lg" type="checkbox" value="${task.id}" id="task_check_${task.id}">
+                                            <label class="form-check-label text-center" for="task_check_${task.id}">
+                                            ${task.title}
+                                            </label>
+                                        </div>
+                                    </h6>`, 
+                            `       <div class="card-body bg-success pt-2 pb-2"><p class="card-text">${task.description}</p></div>`));
+                    const checkbox_elem = $(`#${tab_id}>.card-body>#${task.id} >.card-header>.form-check>.form-check-input`);
+                    const task_title_elem = $(`#${tab_id}>.card-body>#${task.id} >.card-header>.form-check>.form-check-label`);
+                    const task_discription_elem = $(`#${tab_id}>.card-body>#${task.id} >.card-body>.card-text`);
+
+                    const is_checked = task.is_checked == "1";
+                    if(is_checked){
+                        checkbox_elem.prop("checked", true); //チェック情報をDBから反映
+                    }
+                    await updateDrawCheckedTask(is_checked, task_title_elem);
+                    await updateDrawCheckedTask(is_checked, task_discription_elem);
                 };
             }
         };
+        //タスクチェック時の打消し線とミュート
+        $('.form-check-input').on("click", async event => {
+            const is_checked = $(event.currentTarget).prop("checked");
+            const task_id = $(event.currentTarget).attr("value");
+            await updateTaskCheckStatus(is_checked, task_id);
+            await updateDrawCheckedTask(is_checked, $(event.currentTarget).next("label"));
+            await updateDrawCheckedTask(is_checked, $(event.currentTarget).parents(`#${task_id}`).find(".card-text"));
+        })
     }
     else{
         return 'error';
     }
 }
 
+//タスク追加ボタン表示
+const displayAddTaskButton = async () => {
+    for(let tab_id of Object.keys(TaskMgr.tabs)){
+        $(`#${tab_id} > .card-body`).append(`<button type="button" class="btn btn-sm btn-info border-info add_task" id="add_task_${tab_id}">+ add</button>`);
+    }
+    //ボタンクリック時イベント登録
+    $('.add_task').on("click", async event => {
+        const attr_id = $(event.currentTarget).attr("id");
+        const tab_id = Number(attr_id.slice(9));
+        var taskTitle = window.prompt("title", "new task");
+        if (taskTitle == null) {
+            alert("no inputs");
+            return;
+        }
+        var taskDescript = window.prompt("Descript", "about new task");
+        if (taskDescript == null) {
+            alert("no inputs");
+            return;
+        }
+        const ret = await addTask(taskTitle, taskDescript, tab_id);
+        //if(ret == true) ;
+        await displayAll();
+    })
+}
+
+//まとめて描画
+const displayAll = async () => {
+    await displayTab();
+    await displayTask();
+    await displayAddTaskButton();
+}
+
+
 //タブ削除
-const removeTab = async (tab_name) => {
+const removeTab = async tab_id => {
     const resp = await fetch("php/removeTab.php", {
         method: 'POST',
-        body: `user_id=${TaskMgr.user_id}&name=${tab_name}`,
+        body: `user_id=${TaskMgr.user_id}&tab_id=${tab_id}`,
         headers: new Headers({
             'Content-type': 'application/x-www-form-urlencoded'
         })
@@ -140,12 +241,47 @@ const addTask = async (title, description, tab_id) => {
     }
 }
 
+//タスク削除
+const removeTask = async task_id => {
+    const resp = await fetch("php/removeTask.php", {
+        method: 'POST',
+        body: `task_id=${task_id}`,
+        headers: new Headers({
+            'Content-type': 'application/x-www-form-urlencoded'
+        })
+    }); 
+    const json = await resp.json();
+    if (json.is_succeeded == true) {
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
+//タスクのチェック状況更新
+const updateTaskCheckStatus = async (is_checked, task_id) => {
+    const resp = await fetch("php/updateTaskCheckStatus.php", {
+        method: 'POST',
+        body: `is_checked=${is_checked}&task_id=${task_id}`,
+        headers: new Headers({
+            'Content-type': 'application/x-www-form-urlencoded'
+        })
+    }); 
+    const json = await resp.json();
+    if (json.is_succeeded == true) {
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
 //サービス画面遷移時、ログインユーザー名表示
 //登録タスクの取得
 document.addEventListener("DOMContentLoaded", async () => {
     await getSession();
-    await displayTab();
-    await displayTask();
+    await displayAll();
 });
 
 //タスクテーマの新規登録
@@ -157,39 +293,10 @@ $(() => {
             return;
         }
         await addTaskTab(tabName, TaskMgr.user_id);
-        await displayTab();
-        displayTask();
+        await displayAll();
     })
 })
 
-//タスクタブの削除
-$(() => {
-    $('#remove_tab').click(async () => {
-       const result = await removeTab($(".nav-tabs .active").text());
-       if(result == true) {
-           await displayTab();
-           await displayTask();
-       }
-       $(".nav-tabs:first").addClass("active");
-    })
-})
 
-//タスクの新規登録
-$(() => {
-    $('#add_task').click(async () => {
-        const tab_id = Number($('.nav-tabs .active').attr("href").slice(4));
-        var taskTitle = window.prompt("title", "new task");
-        if (taskTitle == null) {
-            alert("no inputs");
-            return;
-        }
-        var taskDescript = window.prompt("Descript", "about new task");
-        if (taskDescript == null) {
-            alert("no inputs");
-            return;
-        }
-        const ret = await addTask(taskTitle, taskDescript, tab_id);
-        //if(ret == true) ;
-        displayTask();
-    })
-})
+
+

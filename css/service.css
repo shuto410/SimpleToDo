@@ -1,8 +1,78 @@
+
+/* Custom default color */
+.bg-primary {
+  background-color: #22275C !important;
+  color: #fff;
+  border: none;
+}
+
+.bg-secondary {
+  background-color: #35478C !important;
+  color: #fff;
+  border: none;
+}
+
+.bg-success {
+  background-color: #7FB2F0 !important;
+  color: #000;
+  border: none;
+}
+
+.btn-secondary {
+  background: #35478C;
+  color: #fff;
+  border: none;
+}
+
+.btn-info {
+  /*background:#ffa500;*/
+  color: #fff;
+  border: none;
+}
+
+.btn-danger {
+  background:#ffa500;
+  color: #fff;
+  border: none;
+}
+
+.text-title {
+  color: #22275C !important;
+}
+
+.btn-secondary:hover, .btn-secondary:focus, 
+.btn-secondary:active, .btn-secondary:active:focus, .btn-secondary:active:hover, .btn-secondary:active.focus,
+.btn-secondary.active, .btn-secondary.active:focus, .btn-secondary.active:hover, .btn-secondary.active.focus,
+.open > .dropdown-toggle.btn-secondary, 
+.open > .dropdown-toggle.btn-secondary:hover,
+.open > .dropdown-toggle.btn-secondary:focus, 
+.open > .dropdown-toggle.btn-secondary.focus,
+.btn-secondary.disabled:hover, .btn-secondary[disabled]:hover, fieldset[disabled] .btn-secondary:hover,
+.btn-secondary.disabled:focus, .btn-secondary[disabled]:focus, fieldset[disabled] .btn-secondary:focus,
+.btn-secondary.disabled.focus, .btn-secondary[disabled].focus, fieldset[disabled] .btn-secondary.focus {
+  background: #22275C; 
+  color: #fff; 
+  border: none;
+}
+
+.card,
+.card-body,
+.card-header {
+  border : none;
+}
+
+html,
 body {
-    padding-top: 5rem;
-  }
-  .starter-template {
-    padding: 3rem 1.5rem;
-    text-align: center;
-  }
-  
+  padding-top: 2.5rem;
+  /*background: url(../img/city.jpg);*/
+  background-color: #ADD5F7;
+}
+
+.starter-template {
+  padding: 3rem 1.5rem;
+  text-align: center;
+}
+
+#task_content {
+  display: inline-block;
+}

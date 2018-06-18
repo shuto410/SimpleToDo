@@ -18,7 +18,7 @@ function addTask(){
 
         if(empty($title) OR empty($tab_id) OR empty($user_id)) return;
     
-        $queryResult = queryMysql("INSERT INTO tasks(title, description, user_id, tab_id) VALUES('$title', '$description', $user_id, $tab_id)");
+        $queryResult = queryMysql("INSERT INTO tasks(title, description, is_checked, user_id, tab_id) VALUES('$title', '$description', false, $user_id, $tab_id)");
         if($queryResult == true){
             $result['is_succeeded'] = true;
             $result['id'] = mysqli_insert_id($dblink);
