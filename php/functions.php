@@ -3,11 +3,7 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-$dbhost  = 'localhost';
-$dbname  = 'task_manager';
-$dbuser  = 'tatami';
-$dbpass  = 'pass';
-$appname = "sample_game";
+include_once "config.php";
 
 
 $dblink = mysqli_connect($dbhost, $dbuser, $dbpass);
