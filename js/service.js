@@ -27,6 +27,7 @@ const getSession = async () => {
         $('#user').text(`${name}`);
     } else {
         console.log("get session failed" + json.sessionId);
+        console.log("without login to use");
     }
 }
 
@@ -277,6 +278,22 @@ const updateTaskCheckStatus = async (is_checked, task_id) => {
     }
 }
 
+const logout = async () => {
+    const resp = await fetch("php/endsession.php", {
+        method: 'POST',
+        headers: new Headers({
+            'Content-type': 'application/x-www-form-urlencoded'
+        })
+    }); 
+    const json = await resp.json();
+    if (json.is_succeeded == true) {
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
 //サービス画面遷移時、ログインユーザー名表示
 //登録タスクの取得
 document.addEventListener("DOMContentLoaded", async () => {
@@ -292,11 +309,23 @@ $(() => {
             alert("no inputs");
             return;
         }
-        await addTaskTab(tabName, TaskMgr.user_id);
+        if(user_id == null){
+            //cookie
+        }
+        else{
+            await addTaskTab(tabName, TaskMgr.user_id);
+        }
         await displayAll();
     })
 })
 
+//ログアウト処理
+$(() => {
+    $('#logout').click(async () => {
+        await logout();
+        window.location.href = 'index.html';
+    })
+})
 
 
 
