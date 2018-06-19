@@ -22,7 +22,7 @@ const getSession = async () => {
     const json = await resp.json();
     if (json.is_succeeded == true) {
         //console.log("get session success");
-        TaskMgr.user_id = json.id;
+        await TaskMgr.user_id = json.id;
         const name = await fetchUserName(json.id);
         $('#user').text(`${name}`);
     } else {
