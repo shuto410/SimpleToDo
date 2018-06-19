@@ -15,12 +15,14 @@ const startSession = async (id) => {
         })
     })
     const json = await resp.json();
-    alert(json.sessionId);
+    //alert(json.sessionId);
     if(json.is_succeeded == true){
-        console.log("set session success");
+        //console.log("set session success");
+        return true;
     }
     else{
-         console.log("set session failed");
+        //console.log("set session failed");
+        return false;
     }
 }
 

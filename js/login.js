@@ -44,9 +44,9 @@ $(() => {
         })
         const json = await resp.json();
         // textに文字列で結果が渡される
-        console.log(`${json.is_succeeded} id : ${json.id}`);
+        //console.log(`${json.is_succeeded} id : ${json.id}`);
         if (json.is_succeeded == true) {
-            startSession(json.id);
+            await startSession(json.id);
             window.location.href = 'service.html';
         } else {
             if ($('#failed-alert').length) {

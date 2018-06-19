@@ -21,13 +21,13 @@ const getSession = async () => {
     });
     const json = await resp.json();
     if (json.is_succeeded == true) {
-        console.log("get session success");
+        //console.log("get session success");
         TaskMgr.user_id = json.id;
         const name = await fetchUserName(json.id);
         $('#user').text(`${name}`);
     } else {
-        console.log("get session failed" + json.sessionId);
-        console.log("without login to use");
+        //console.log("get session failed" + json.sessionId);
+        //console.log("without login to use");
     }
 }
 
