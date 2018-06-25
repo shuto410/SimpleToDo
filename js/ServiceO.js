@@ -5,6 +5,8 @@ class Service {
     constructor (){
         const id = _getIdFromSession();
         this._user = new User(id);
+        this._tabs = [];
+        this._addLogoutEvent();
     }
 
     async _getIdFromSession(){
@@ -19,7 +21,7 @@ class Service {
         }
     }
 
-    _logout(){
+    _addLogoutEvent(){
         $('#logout').on("click", async () => {
             await logout();
             window.location.href = 'index.html';
