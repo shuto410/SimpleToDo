@@ -6,15 +6,15 @@ include_once 'functions.php';
 
 function addTab(){
     global $dblink;
-    $result = array('is_succeeded' => false, 'id' => null);
+    $result = array('is_succeeded' => false, 'tab_id' => null);
 
-    if(isset($_POST['name']) AND isset($_POST['user_id'])){
-        $name = sanitizeString($_POST['name']);
+    if(isset($_POST['tab_name']) AND isset($_POST['user_id'])){
+        $tab_name = sanitizeString($_POST['tab_name']);
         $user_id = sanitizeString($_POST['user_id']);
-        $queryResponse = queryMysql("INSERT INTO task_tabs(name, user_id) VALUES('$name', $user_id)");
+        $queryResponse = queryMysql("INSERT INTO task_tabs(name, user_id) VALUES('$tab_name', $user_id)");
         if($queryResponse == true){
             $result['is_succeeded'] = true;
-            $result['id'] = mysqli_insert_id($dblink);
+            $result['tab_id'] = mysqli_insert_id($dblink);
         }
     }
 
