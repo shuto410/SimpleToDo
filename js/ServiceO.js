@@ -28,7 +28,7 @@ class Service {
             window.location.href = 'index.html';
         })
     }
-    /
+
 
     static addTaskTab(tab_name, user_id){
         const resp = await fetch('php/addTab.php', {
