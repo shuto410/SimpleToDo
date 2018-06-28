@@ -67,4 +67,22 @@ class Service {
             throw new Error("Remove tab failed");
         }
     }
+
+    _fetchTabInfo(){
+        const resp = await fetch("php/fetchTab.php", {
+            method: 'POST',
+            body: `user_id=${TaskMgr.user_id}`,
+            headers: new Headers({
+                'Content-type': 'application/x-www-form-urlencoded'
+            })
+        }); 
+        if(!resp.ok) throw new Error("Ajax to fetch tab info failed");
+        const json = await resp.json();
+        if(json.is_succeeded == true){
+            
+        }
+        else{
+            throw new Error("Fetch tab failed");
+        }
+    }
 }
